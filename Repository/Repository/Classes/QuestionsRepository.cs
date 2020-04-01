@@ -8,13 +8,20 @@ namespace Repository.Repository.Classes
 {
     public class QuestionsRepository:IQuestionsRepository
     {
-        public IEnumerable<Question> loadAllQuestions()
+        List<Question> allQuestions = LoadAllQuestions() as List<Question>;
+        public static IEnumerable<Question> LoadAllQuestions()
         {
             return null;
         }
-        public IEnumerable<Question> getQuestionsById(int id)
+
+        public IEnumerable<Question> GetAllQuestions()
         {
-            return null;
+            return allQuestions;
+        }
+
+        public Question GetQuestionByID(int ID)
+        {
+            return allQuestions.Find((x) => x.ID == ID);
         }
     }
 }

@@ -15,12 +15,12 @@ namespace Services.Services.Classes
         }
         public IEnumerable<Question> GetAllQuestions()
         {
-            throw new NotImplementedException();
+            return repository.GetAllQuestions();
         }
 
         public Question GetQuestionByID(int id)
         {
-            throw new NotImplementedException();
+            return repository.GetQuestionByID(id);
         }
     }
 }
