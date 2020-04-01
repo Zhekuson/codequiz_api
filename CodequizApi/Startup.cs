@@ -13,7 +13,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using CodequizApi.Models;
+using Domain.Models;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Services;
+using Services.Services.Classes;
+using Repository.Repository.Interfaces;
+using Repository.Repository.Classes;
+
 namespace CodequizApi
 {
     public class Startup
@@ -30,7 +36,11 @@ namespace CodequizApi
         { 
             services.AddMvc(options => options.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Latest);
-            
+
+            services.AddTransient<IQuestionService, QuestionService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
+            services.AddSingleton<IUsersRepository, UsersRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,18 +50,7 @@ namespace CodequizApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            
-            //app.UseRouting();
             app.UseMvc();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("Hello World!");
-            //    });
-            //});
-
         }
     }
 }
