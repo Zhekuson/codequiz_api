@@ -2,16 +2,27 @@
 using Repository.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repository.Repository.Classes
 {
     public class QuestionsRepository:IQuestionsRepository
     {
-        List<Question> allQuestions = LoadAllQuestions() as List<Question>;
+        List<Question> allQuestions;
+        public QuestionsRepository()
+        {
+            allQuestions = LoadAllQuestions() as List<Question>;
+        }
         public static IEnumerable<Question> LoadAllQuestions()
         {
-            return null;
+            //TODO here will be database call
+            IEnumerable<Question> questions = new List<Question>();
+            for (int i = 0; i < 10000; i++)
+            {
+                (questions as List<Question>).Add(new Question(i,$"text {i}"));
+            }
+            return questions;
         }
 
         public IEnumerable<Question> GetAllQuestions()

@@ -20,6 +20,10 @@ namespace Domain.Models
         public string RightAnswer { get; set; }
         public IEnumerable<string> Answers { get; set; }
 
+        public Question()
+        {
+                
+        }
         public Question(int id, string text)
         {
             ID = id;

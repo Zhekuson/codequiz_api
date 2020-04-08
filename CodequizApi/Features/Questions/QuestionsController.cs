@@ -27,12 +27,12 @@ namespace CodequizApi.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> GetAll()
-        {   
-            
-            Question question = new Question(3,"dvasc");
+        {
+
+            /*Question question = new Question(3,"dvasc");
             List<Question> questions = new List<Question>();
-            questions.Add(question);
-            //questionService.GetAllQuestions();
+            questions.Add(question);*/
+            List<Question> questions = questionService.GetAllQuestions() as List<Question>;
             JsonResult jsonResult = new JsonResult(questions);
             return  jsonResult;
         }
