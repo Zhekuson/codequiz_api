@@ -1,9 +1,0 @@
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\bin\Debug\netcoreapp2.1\Domain.deps.json
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\bin\Debug\netcoreapp2.1\Domain.dll
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\bin\Debug\netcoreapp2.1\Domain.pdb
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\obj\Debug\netcoreapp2.1\Domain.csproj.CoreCompileInputs.cache
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\obj\Debug\netcoreapp2.1\Domain.AssemblyInfoInputs.cache
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\obj\Debug\netcoreapp2.1\Domain.AssemblyInfo.cs
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\obj\Debug\netcoreapp2.1\Domain.dll
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\obj\Debug\netcoreapp2.1\Domain.pdb
-C:\TheGreatestProjectsOfMyLife\CodequizApi\CodequizApi\Domain\obj\Debug\netcoreapp2.1\Domain.csprojAssemblyReference.cache
