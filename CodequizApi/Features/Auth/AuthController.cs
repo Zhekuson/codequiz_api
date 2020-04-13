@@ -21,13 +21,14 @@ namespace CodequizApi.Features.Auth
         {
             this.userService = userService;
         }
-        [HttpPost("/token")]
+
+        [HttpPost("token")]
         public IActionResult Token(string email)
         {
             var identity = GetIdentity(email);
             if (identity == null)
             {
-                return new BadRequestResult();
+                return BadRequest(new { errorText = "Invalid username or password." });
             }
 
             var now = DateTime.UtcNow;
@@ -43,35 +44,30 @@ namespace CodequizApi.Features.Auth
 
             var response = new
             {
-                access_token = encodedJwt,
-                username = identity.Name
+                access_token = encodedJwt
             };
 
-            return new JsonResult(response);
-
+            return Json(response);
         }
         private ClaimsIdentity GetIdentity(string email)
         {
             User person = userService.GetUserByEmail(email);
-            if (person != null)
+            if (person == null)
             {
-                //var claims = new List<Claim>
-                //{
-                //    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-                //    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
-                //};
-                ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
-            }
-            else
-            {
-                //TODO add insert 
+                person = new Domain.Models.User();
+                person.Email = email;
+                userService.AddUser(person);
             }
 
             // если пользователя не найдено
-            return null;
+     
+            var claims = new List<Claim>
+                {
+                    new Claim("email",email)
+                };
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
+            return claimsIdentity;
         }
+
     }
 }

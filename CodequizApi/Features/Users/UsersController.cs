@@ -12,6 +12,7 @@ namespace CodequizApi.Features.Users
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : Controller
     {
         readonly IUserService userService;
@@ -25,17 +26,17 @@ namespace CodequizApi.Features.Users
         //}
 
         [HttpGet("/{id}")]
-        public async Task<IActionResult> GetUserByID(string id)
+        public async Task<IActionResult> GetUserByID(int id)
         {
-            User user = new User();
+            User user = userService.GetUserById(id);
             JsonResult result = new JsonResult(user);
             return result;
         }
-        [HttpGet("/stats/{id}")]
-        public async Task<IActionResult> GetUserStats()
-        {
+        //[HttpGet("/stats/{id}")]
+        //public async Task<IActionResult> GetUserStats()
+        //{
 
-        }
+        //}
         
         //public Task<IActionResult> GetUserTagStats(string JWT)
         //{

@@ -18,7 +18,9 @@ namespace Domain.Models
         }
         public User(int id, string email, string googleEmail)
         {
-
+            ID = id;
+            Email = email;
+            GoogleEmail = googleEmail;
         }
     }
 }

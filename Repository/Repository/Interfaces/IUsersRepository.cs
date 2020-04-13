@@ -8,5 +8,7 @@ namespace Repository.Repository.Interfaces
     public interface IUsersRepository
     {
         User GetUserByEmail(string email);
+        void AddUser(User user);
+        User GetUserByID(int id);
     }
 }

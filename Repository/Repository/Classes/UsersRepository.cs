@@ -8,6 +8,9 @@ namespace Repository.Repository.Classes
 {
     public class UsersRepository:IUsersRepository
     {
+        public UsersRepository()
+        {
+        }
         List<User> users = new List<User>()
         {
             new User(0,"edplyusch@edu.hse.ru","zhekuson@gmail.com"), new User(1,"ashalamov@edu.hse.ru","sasha@gmail.com")
@@ -18,7 +21,17 @@ namespace Repository.Repository.Classes
         }
         public User GetUserByEmail(string email)
         {
-            return users.Find(x=>x.Email == email);
+            return users.Find(x => x.Email == email);
+        }
+
+        public void AddUser(User user)
+        {
+            users.Add(user);
+        }
+
+        public User GetUserByID(int id)
+        {
+            return users.Find(x => x.ID == id);
         }
     }
 }

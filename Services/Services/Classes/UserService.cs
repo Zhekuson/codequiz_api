@@ -14,17 +14,20 @@ namespace Services.Services.Classes
         {
             this.usersRepository = usersRepository;
         }
+
+        public void AddUser(User user)
+        {
+            usersRepository.AddUser(user);
+        }
+
         public User GetUserByEmail(string email)
         {
-            //User user = new User();
-            // user.Email = email;
-            // return user;
             return usersRepository.GetUserByEmail(email);
         }
 
         public User GetUserById(int id)
         {
-            throw new NotImplementedException();
+            return usersRepository.GetUserByID(id);
         }
     }
 }
