@@ -24,14 +24,18 @@ namespace CodequizApi.Features.Users
 
         //}
 
-        [HttpGet("{id}")]
+        [HttpGet("/{id}")]
         public async Task<IActionResult> GetUserByID(string id)
         {
             User user = new User();
             JsonResult result = new JsonResult(user);
             return result;
         }
-        
+        [HttpGet("/stats/{id}")]
+        public async Task<IActionResult> GetUserStats()
+        {
+
+        }
         
         //public Task<IActionResult> GetUserTagStats(string JWT)
         //{

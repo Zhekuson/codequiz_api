@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,6 @@ namespace Repository.Repository.Interfaces
 {
     public interface IUsersRepository
     {
-
+        User GetUserByEmail(string email);
     }
 }

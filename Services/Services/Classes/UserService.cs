@@ -16,9 +16,10 @@ namespace Services.Services.Classes
         }
         public User GetUserByEmail(string email)
         {
-            User user = new User();
-            user.Email = email;
-            return user;
+            //User user = new User();
+            // user.Email = email;
+            // return user;
+            return usersRepository.GetUserByEmail(email);
         }
 
         public User GetUserById(int id)

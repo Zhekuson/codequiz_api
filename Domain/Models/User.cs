@@ -11,6 +11,14 @@ namespace Domain.Models
         public string Email { get; set; }
         public string GoogleEmail { get; set; }
         public IEnumerable<TagStats> TagStats { get; set; }
-        public IEnumerable<QuizResult> QuizResults { get; set; } 
+        public IEnumerable<QuizResult> QuizResults { get; set; }
+        public User()
+        {
+
+        }
+        public User(int id, string email, string googleEmail)
+        {
+
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Services
     {
         User GetUserById(int id);
         User GetUserByEmail(string email);
+        void AddUser(User user);
     }
 }
