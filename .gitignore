@@ -8,6 +8,7 @@ Repository/bin
 Repository/obj
 Services/bin
 Services/obj
+AuthOptions.cs
 *.min.css
 *.min.js
 *.map
