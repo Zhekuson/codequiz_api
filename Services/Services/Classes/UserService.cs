@@ -19,7 +19,12 @@ namespace Services.Services.Classes
         {
             usersRepository.AddUser(user);
         }
-
+        public void UpdateUser(User user)
+        {
+            User user1 = usersRepository.GetUserByEmail(user.Email);
+            user1.QuizResults = user.QuizResults;
+            user1.TagStats = user.TagStats;
+        }
         public User GetUserByEmail(string email)
         {
             return usersRepository.GetUserByEmail(email);

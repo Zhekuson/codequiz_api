@@ -20,27 +20,25 @@ namespace CodequizApi.Features.Users
         {
             this.userService = userService;
         }
-        //public Task<IActionResult> GetJWT()
-        //{
-
-        //}
-
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserByID(int id)
         {
             User user = userService.GetUserById(id);
             JsonResult result = new JsonResult(user);
             return result;
         }
-        //[HttpGet("/stats/{id}")]
-        //public async Task<IActionResult> GetUserStats()
-        //{
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            User user = userService.GetUserByEmail(email);
+            return new JsonResult(user);
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        {
+            var body = Request.Body;
+            return Ok();
+        } 
 
-        //}
-        
-        //public Task<IActionResult> GetUserTagStats(string JWT)
-        //{
-
-        //}
     }
 }

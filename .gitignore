@@ -9,6 +9,7 @@ Repository/obj
 Services/bin
 Services/obj
 AuthOptions.cs
+MailOptions.cs
 *.min.css
 *.min.js
 *.map

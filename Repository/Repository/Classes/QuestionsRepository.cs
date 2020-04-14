@@ -34,5 +34,10 @@ namespace Repository.Repository.Classes
         {
             return allQuestions.Find((x) => x.ID == ID);
         }
+
+        public IEnumerable<Question> GetQuestionsByTag(string tag)
+        {
+            return allQuestions.FindAll(x => x.Tags.Contains(tag));
+        }
     }
 }

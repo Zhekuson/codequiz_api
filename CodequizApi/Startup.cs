@@ -22,6 +22,7 @@ using Repository.Repository.Classes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using CodequizApi.Features.Auth;
+using Services.Services.Interfaces;
 
 namespace CodequizApi
 {
@@ -44,6 +45,7 @@ namespace CodequizApi
             services.AddTransient<IUserService, UserService>();
             services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();
+            services.AddSingleton<IMailService, MailService>();
             services.AddAuthentication(
                 JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>

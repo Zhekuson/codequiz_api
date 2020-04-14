@@ -14,18 +14,12 @@ namespace CodequizApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   
     public class QuestionsController : Controller
     {
         readonly IQuestionService questionService;
         public QuestionsController(IQuestionService questionService)
         {
             this.questionService = questionService; 
-        }
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(string id)
-        {
-            return id;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll()
