@@ -1,24 +1,21 @@
-﻿using System;
+﻿
+
+using Domain.Models.Tags;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Models
-{
-    public enum QuestionType
-    {
-        OPEN,
-        SINGLE_CHOICE,
-        MULTIPLE_CHOICE
-    }
+namespace Domain.Models.Questions
+{ 
     public class Question
     {
         public int ID { get; set; }
         public string QuestionText { get; set; }
         public QuestionType Type { get; set; }
-        public IEnumerable<string> Tags { get; set; }
-        public string RightAnswer { get; set; }
-        public IEnumerable<string> Answers { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
+        public Answer RightAnswer { get; set; }
+        public IEnumerable<Answer> Answers { get; set; }
 
         public Question()
         {

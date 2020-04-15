@@ -7,6 +7,7 @@ using Services;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services.Classes;
 using Microsoft.AspNetCore.Authorization;
+using Domain.Models.Questions;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,11 +28,7 @@ namespace CodequizApi.Controllers
             List<Question> questions = await questionService.GetAllQuestions() as List<Question>;
             return new JsonResult(questions);
         }
-        [HttpGet("/hash")]
-        public async Task<IActionResult> GetDataBaseHash()
-        {
-            questionService.
-        }
+
 
     }
 }

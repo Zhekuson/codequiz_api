@@ -1,13 +1,15 @@
 ﻿using Domain.Models;
+using Domain.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Repository.Repository.Interfaces
 {
     public interface IQuestionsRepository
     {
-        IEnumerable<Question> GetAllQuestions();
-        Question GetQuestionByID(int ID);
+        Task<IEnumerable<Question>> GetAllQuestions();
+        Task<Question> GetQuestionByID(int ID);
     }
 }

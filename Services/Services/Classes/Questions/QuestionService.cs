@@ -1,8 +1,10 @@
 ﻿using Domain.Models;
+using Domain.Models.Questions;
 using Repository.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Services.Services.Classes
 {
@@ -13,12 +15,12 @@ namespace Services.Services.Classes
         {
             this.repository = repository;
         }
-        public IEnumerable<Question> GetAllQuestions()
+        public async Task<IEnumerable<Question>> GetAllQuestions()
         {
-            return repository.GetAllQuestions();
+            return await repository.GetAllQuestions();
         }
 
-        public Question GetQuestionByID(int id)
+        public Task<Question> GetQuestionByID(int id)
         {
             return repository.GetQuestionByID(id);
         }

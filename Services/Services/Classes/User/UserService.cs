@@ -1,9 +1,11 @@
 ﻿using Domain.Models;
+using Domain.Models.Users;
 using Repository.Repository.Classes;
 using Repository.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Services.Services.Classes
 {
@@ -14,25 +16,19 @@ namespace Services.Services.Classes
         {
             this.usersRepository = usersRepository;
         }
-
-        public void AddUser(User user)
+        public async Task AddUser(User user)
         {
-            usersRepository.AddUser(user);
-        }
-        public void UpdateUser(User user)
-        {
-            User user1 = usersRepository.GetUserByEmail(user.Email);
-            user1.QuizResults = user.QuizResults;
-            user1.TagStats = user.TagStats;
-        }
-        public User GetUserByEmail(string email)
-        {
-            return usersRepository.GetUserByEmail(email);
+            await usersRepository.AddUser(user);
         }
 
-        public User GetUserById(int id)
+        public async Task UpdateUser(User user)
         {
-            return usersRepository.GetUserByID(id);
+            throw new Exception();
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await usersRepository.GetUserByEmail(email);
         }
     }
 }

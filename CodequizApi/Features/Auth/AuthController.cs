@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Services;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Repository.Repository.Classes
+namespace Services.Services.Interfaces
 {
-    public class QuizResultRepository
+    interface IQuizService
     {
     }
 }

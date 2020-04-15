@@ -42,7 +42,7 @@ namespace CodequizApi.Features.Users
         
 
         /// <summary>
-        /// Updates user stats/email
+        /// Updates user email
         /// </summary>
         /// <param name="user"> user from body </param>
         /// <returns>Ok if changes were successfully applied</returns>
