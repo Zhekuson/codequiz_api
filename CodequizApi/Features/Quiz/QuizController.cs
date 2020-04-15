@@ -14,6 +14,8 @@ namespace CodequizApi.Features.Quiz
     [Authorize]
     public class QuizController:Controller
     {
+
+
         [HttpPost("/custom")]
         public async Task<IActionResult> GetCustomQuiz([FromBody])
         {

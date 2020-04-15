@@ -4,7 +4,7 @@ using System.Text;
 using Domain.Models.Questions;
 namespace Domain.Models.Quiz
 {
-    class Quiz
+    public class Quiz
     {
         int ID { get; set; }
 
