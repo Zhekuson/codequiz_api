@@ -10,6 +10,7 @@ Services/bin
 Services/obj
 AuthOptions.cs
 MailOptions.cs
+DatabaseConfig.cs
 *.min.css
 *.min.js
 *.map

@@ -3,13 +3,13 @@ using Repository.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Services
 {
     public interface IQuestionService
     {
-        //IQuestionsRepository repository { get; set; }
-        Question GetQuestionByID(int id);
-        IEnumerable<Question> GetAllQuestions();
+        Task<Question> GetQuestionByID(int id);
+        Task<IEnumerable<Question>> GetAllQuestions();
     }
 }

@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Services
 {
     public interface IUserService
     {
-        User GetUserById(int id);
-        User GetUserByEmail(string email);
-        void AddUser(User user);
-        void UpdateUser(User user);
+        Task<User> GetUserByEmail(string email);
+        Task AddUser(User user);
+        Task UpdateUser(User user);
     }
 }

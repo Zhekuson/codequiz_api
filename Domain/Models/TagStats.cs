@@ -11,7 +11,7 @@ namespace Domain.Models
         public string Tag { get; set; }
         public double WeekRate { get; set; }
         public double DayRate { get; set; }
-        public double AllTimeRate { get; set; }
+        public double YearRate { get; set; }
     }
 }
 

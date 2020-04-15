@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using Services.Services.Interfaces;
 
 namespace CodequizApi.Features.Users
 {
@@ -16,29 +18,50 @@ namespace CodequizApi.Features.Users
     public class UsersController : Controller
     {
         readonly IUserService userService;
-        public UsersController(IUserService userService)
+        readonly IMailService mailService;
+        public UsersController(IUserService userService, IMailService mailService)
         {
             this.userService = userService;
+            this.mailService = mailService;
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserByID(int id)
+        [HttpPut("/{email}")]
+        public async Task<IActionResult> SendVerificationEmail(string email)
         {
-            User user = userService.GetUserById(id);
-            JsonResult result = new JsonResult(user);
-            return result;
+            try
+            {
+                int code = await mailService.SendVerificationEmail(email);
+                return new JsonResult(code);
+            }
+            catch (Exception e)
+            {
+                //if error happened
+                return StatusCode(500);
+            }
+            
         }
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetUserByEmail(string email)
-        {
-            User user = userService.GetUserByEmail(email);
-            return new JsonResult(user);
-        }
-        [HttpPut]
+        
+
+        /// <summary>
+        /// Updates user stats/email
+        /// </summary>
+        /// <param name="user"> user from body </param>
+        /// <returns>Ok if changes were successfully applied</returns>
+        [HttpPut("/update")]
         public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
-            var body = Request.Body;
-            return Ok();
-        } 
+            try
+            {
+                await userService.UpdateUser(user);
+                return Ok();
+            }
+            //todo add catch exceptions
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
+            
+        }
+
 
     }
 }

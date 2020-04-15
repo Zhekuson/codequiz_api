@@ -9,7 +9,5 @@ namespace Repository.Repository.Interfaces
     {
         IEnumerable<Question> GetAllQuestions();
         Question GetQuestionByID(int ID);
-
-        IEnumerable<Question> GetQuestionsByTag(string tag);
     }
 }

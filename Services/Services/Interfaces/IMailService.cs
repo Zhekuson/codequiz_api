@@ -8,5 +8,6 @@ namespace Services.Services.Interfaces
     public interface IMailService
     {
         Task SendEmailAsync(string email, string subject, string message);
+        Task<int> SendVerificationEmail(string email);
     }
 }
