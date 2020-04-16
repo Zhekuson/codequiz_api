@@ -11,6 +11,7 @@ namespace Services
     public interface IQuestionService
     {
         Task<Question> GetQuestionByID(int id);
+        Task<IEnumerable<Question>> GetAllQuestions();
         Task InsertQuestion(Question question);
     }
 }

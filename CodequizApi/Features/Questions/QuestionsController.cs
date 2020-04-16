@@ -15,6 +15,7 @@ namespace CodequizApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuestionsController : Controller
     {
         readonly IQuestionService questionService;
@@ -27,6 +28,13 @@ namespace CodequizApi.Controllers
         {
             List<Question> questions = await questionService.GetAllQuestions() as List<Question>;
             return new JsonResult(questions);
+        }
+
+        [HttpPost("/insert")]
+        public async Task<IActionResult> InsertQuestion([FromBody] Question question)
+        {
+            await questionService.InsertQuestion(question);
+            return Ok();
         }
 
 

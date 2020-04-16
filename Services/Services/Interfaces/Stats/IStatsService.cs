@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Services.Interfaces.Stats
 {
-    interface IStatsService
+    public interface IStatsService
     {
         public Task<IEnumerable<QuizAttempt>> GetQuizAttemptsByUserEmail(string email);
 

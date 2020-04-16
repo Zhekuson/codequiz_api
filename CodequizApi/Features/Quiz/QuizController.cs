@@ -4,6 +4,7 @@ using Domain.Models.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interfaces;
+using Services.Services.Interfaces.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,11 @@ namespace CodequizApi.Features.Quiz
     public class QuizController:Controller
     {
         readonly IQuizService quizService;
-        QuizController(IQuizService quizService)
+        readonly IStatsService statsService;
+        QuizController(IQuizService quizService, IStatsService statsService)
         {
             this.quizService = quizService;
+            this.statsService = statsService;
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuizById(int id)
@@ -46,11 +49,10 @@ namespace CodequizApi.Features.Quiz
         }
         
         [HttpPut("/answer")]
-        public async Task<IActionResult> GetUserAnswers([FromBody] IEnumerable<IEnumerable<Answer>> answers)
+        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt)
         {
-            UserQuizAnswer userQuizAnswer = new UserQuizAnswer();
-            userQuizAnswer.UserAnswers = answers;
-            return new JsonResult(await quizService.MakeReport(userQuizAnswer));
+            await statsService.InsertQuizAttempt(quizAttempt);
+            return Ok();
         }
 
 
