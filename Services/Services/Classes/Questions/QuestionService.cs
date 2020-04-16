@@ -24,5 +24,10 @@ namespace Services.Services.Classes
         {
             return repository.GetQuestionByID(id);
         }
+
+        public async Task InsertQuestion(Question question)
+        {
+            await repository.InsertQuestion(question);
+        }
     }
 }

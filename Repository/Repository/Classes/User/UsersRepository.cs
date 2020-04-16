@@ -1,37 +1,32 @@
 ﻿using Domain.Models;
+using Domain.Models.Users;
 using Repository.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Repository.Repository.Classes
 {
-    public class UsersRepository:IUsersRepository
+    public class UsersRepository:EntityRepository ,IUsersRepository
     {
         public UsersRepository()
         {
         }
-        List<User> users = new List<User>()
+
+        public async Task AddUser(User user)
         {
-            new User(0,"edplyusch@edu.hse.ru","zhekuson@gmail.com"), new User(1,"ashalamov@edu.hse.ru","sasha@gmail.com")
-        };
-        User GetUserById(int id)
-        {
-            return users.Find(x => x.ID == id);
-        }
-        public User GetUserByEmail(string email)
-        {
-            return users.Find(x => x.Email == email);
+            throw new NotImplementedException();
         }
 
-        public void AddUser(User user)
+        public async Task<User> GetUserByEmail(string email)
         {
-            users.Add(user);
+            throw new NotImplementedException();
         }
 
-        public User GetUserByID(int id)
+        public async Task<User> GetUserByID(int id)
         {
-            return users.Find(x => x.ID == id);
+            throw new NotImplementedException();
         }
     }
 }

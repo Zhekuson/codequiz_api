@@ -9,5 +9,7 @@ namespace Repository.Repository.Interfaces.Quizes
     public interface IQuizRepository
     {
         public Task<Quiz> GetQuizById(int id);
+
+        public Task InsertQuiz(Quiz quiz);
     }
 }

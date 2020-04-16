@@ -20,12 +20,6 @@ namespace Services.Services.Classes
         {
             await usersRepository.AddUser(user);
         }
-
-        public async Task UpdateUser(User user)
-        {
-            throw new Exception();
-        }
-
         public async Task<User> GetUserByEmail(string email)
         {
             return await usersRepository.GetUserByEmail(email);

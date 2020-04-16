@@ -7,13 +7,8 @@ namespace Domain.Models.Quiz
     public class Quiz
     {
         int ID { get; set; }
-
         int UserId { get; set; }
-
         QuizType QuizType { get; set; }
-
         IEnumerable<Question> Questions { get; set; }
-
-
     }
 }

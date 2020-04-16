@@ -11,5 +11,7 @@ namespace Repository.Repository.Interfaces
     {
         Task<IEnumerable<Question>> GetAllQuestions();
         Task<Question> GetQuestionByID(int ID);
+
+        Task InsertQuestion(Question question);
     }
 }

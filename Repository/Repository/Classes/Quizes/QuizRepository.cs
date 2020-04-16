@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository.Classes.Quizes
 {
-    public class QuizRepository : IQuizRepository
+    public class QuizRepository : EntityRepository, IQuizRepository
     {
-        public Task<Quiz> GetQuizById(int id)
+        public async Task<Quiz> GetQuizById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task InsertQuiz(Quiz quiz)
         {
             throw new NotImplementedException();
         }

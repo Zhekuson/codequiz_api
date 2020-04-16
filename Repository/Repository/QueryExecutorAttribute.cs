@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Models.Quiz
+namespace Repository.Repository
 {
-    public class QuizReport
+    class QueryExecutorAttribute:Attribute
     {
     }
 }

@@ -3,6 +3,7 @@ using Domain.Models.Quiz;
 using Domain.Models.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 using Services.Services.Interfaces;
 using Services.Services.Interfaces.Stats;
 using System;
@@ -19,10 +20,12 @@ namespace CodequizApi.Features.Quiz
     {
         readonly IQuizService quizService;
         readonly IStatsService statsService;
-        QuizController(IQuizService quizService, IStatsService statsService)
+        readonly IUserService userService;
+        public QuizController(IQuizService quizService, IStatsService statsService, IUserService userService)
         {
             this.quizService = quizService;
             this.statsService = statsService;
+            this.userService = userService;
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuizById(int id)
@@ -42,6 +45,7 @@ namespace CodequizApi.Features.Quiz
         {
             return new JsonResult(await quizService.GetExamQuiz());
         }
+
         [HttpPost("/random")]
         public async Task<IActionResult> GetAllRandomQuiz()
         {
@@ -49,8 +53,9 @@ namespace CodequizApi.Features.Quiz
         }
         
         [HttpPut("/answer")]
-        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt)
+        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt, [FromBody] string userEmail)
         {
+            quizAttempt.UserId = (await userService.GetUserByEmail(userEmail)).ID; 
             await statsService.InsertQuizAttempt(quizAttempt);
             return Ok();
         }

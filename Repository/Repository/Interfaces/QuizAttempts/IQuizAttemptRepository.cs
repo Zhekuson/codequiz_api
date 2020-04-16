@@ -9,5 +9,7 @@ namespace Repository.Repository.Interfaces.QuizAttempts
     public interface IQuizAttemptRepository
     {
         public Task<IEnumerable<QuizAttempt>> GetQuizAttemptsByEmail(string email);
+
+        public Task InsertQuizAttempt(QuizAttempt quizAttempt);
     }
 }

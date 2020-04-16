@@ -15,12 +15,15 @@ namespace Services.Services.Classes
     {
         readonly IQuestionsRepository questionsRepository;
         readonly IQuizRepository quizRepository;
+
+
         QuizService(IQuestionsRepository questionsRepository, IQuizRepository quizRepository)
         {
             this.questionsRepository = questionsRepository;
             this.quizRepository = quizRepository;
         }
 
+        #region quiz generators
         public async Task<Quiz> GetAllRandomQuiz()
         {
             throw new NotImplementedException();
@@ -35,15 +38,16 @@ namespace Services.Services.Classes
         {
             throw new NotImplementedException();
         }
+        #endregion
 
         public async Task<Quiz> GetQuizById(int id)
         {
-            throw new NotImplementedException();
+            return await quizRepository.GetQuizById(id);
         }
 
         public async Task InsertQuiz(Quiz quiz)
         {
-            throw new NotImplementedException();
+            await quizRepository.InsertQuiz(quiz);
         }
     }
 }

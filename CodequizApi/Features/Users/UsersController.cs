@@ -42,26 +42,26 @@ namespace CodequizApi.Features.Users
         }
         
 
-        /// <summary>
-        /// Updates user email
-        /// </summary>
-        /// <param name="user"> user from body </param>
-        /// <returns>Ok if changes were successfully applied</returns>
-        [HttpPut("/update")]
-        public async Task<IActionResult> UpdateUser([FromBody] User user)
-        {
-            try
-            {
-                await userService.UpdateUser(user);
-                return Ok();
-            }
-            //todo add catch exceptions
-            catch (Exception e)
-            {
-                return StatusCode(500);
-            }
+        ///// <summary>
+        ///// Updates user email
+        ///// </summary>
+        ///// <param name="user"> user from body </param>
+        ///// <returns>Ok if changes were successfully applied</returns>
+        //[HttpPut("/update")]
+        //public async Task<IActionResult> UpdateUser([FromBody] User user)
+        //{
+        //    try
+        //    {
+        //        await userService.UpdateUser(user);
+        //        return Ok();
+        //    }
+        //    //todo add catch exceptions
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500);
+        //    }
             
-        }
+        //}
 
 
     }
