@@ -23,6 +23,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using CodequizApi.Features.Auth;
 using Services.Services.Interfaces;
+using Repository.Repository.Interfaces.Quizes;
+using Repository.Repository.Classes.Quizes;
 
 namespace CodequizApi
 {
@@ -46,6 +48,8 @@ namespace CodequizApi
             services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IMailService, MailService>();
+            services.AddTransient<IQuizService, QuizService>();
+            services.AddTransient<IQuizRepository, QuizRepository>();
             services.AddAuthentication(
                 JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -53,21 +57,12 @@ namespace CodequizApi
                         options.RequireHttpsMetadata = false;
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            // укзывает, будет ли валидироваться издатель при валидации токена
-                            ValidateIssuer = true,
-                            // строка, представляющая издателя
-                            ValidIssuer = AuthOptions.ISSUER,
-
-                            // будет ли валидироваться потребитель токена
-                            ValidateAudience = true,
-                            // установка потребителя токена
+                            ValidateIssuer = true, //издатель
+                            ValidIssuer = AuthOptions.ISSUER, // валидация потребителя токена
+                            ValidateAudience = true, // установка потребителя токена
                             ValidAudience = AuthOptions.AUDIENCE,
-                            // будет ли валидироваться время существования
-                            ValidateLifetime = true,
-
-                            // установка ключа безопасности
-                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                            // валидация ключа безопасности
+                            ValidateLifetime = true, // установка ключа безопасности
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(), // валидация ключа 
                             ValidateIssuerSigningKey = true,
                         };
                     });

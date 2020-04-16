@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Domain.Models.Quiz
 {
-    class UserQuizAnswer
+    /// <summary>
+    /// Class with collection of collection of answers
+    /// </summary>
+    public class UserQuizAnswer
     {
-
-        Quiz Quiz { get; set; }
-        IEnumerable<Answer> UserAnswers { get; set; }
-
+        public IEnumerable<IEnumerable<Answer>> UserAnswers { get; set; }
     }
 }

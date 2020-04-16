@@ -14,6 +14,7 @@ namespace Repository.Repository.Classes
 {
     public class QuestionsRepository : IQuestionsRepository
     {
+        
         public QuestionsRepository()
         {
 
@@ -56,6 +57,8 @@ namespace Repository.Repository.Classes
         {
             throw new NotImplementedException();
         }
+
+       
     }
 }
     //IEnumerable<Question> questions = new List<Question>();

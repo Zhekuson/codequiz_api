@@ -14,9 +14,6 @@ namespace Domain.Models.Quiz
 
         IEnumerable<Question> Questions { get; set; }
 
-        DateTime StartDateTime { get; set; }
-
-        DateTime EndDateTime { get; set; }
 
     }
 }

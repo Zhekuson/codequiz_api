@@ -1,7 +1,9 @@
 ﻿using Domain.Models.Questions;
 using Domain.Models.Quiz;
+using Domain.Models.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,30 +16,41 @@ namespace CodequizApi.Features.Quiz
     [Authorize]
     public class QuizController:Controller
     {
-
+        readonly IQuizService quizService;
+        QuizController(IQuizService quizService)
+        {
+            this.quizService = quizService;
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetQuizById(int id)
+        {
+            return new JsonResult(quizService.GetQuizById(id));
+        }
 
         [HttpPost("/custom")]
-        public async Task<IActionResult> GetCustomQuiz([FromBody])
+        public async Task<IActionResult> GetCustomQuiz([FromBody]IEnumerable<Tag> tags,
+            [FromBody] int minutesCount, [FromBody] int questionCount)
         {
-            //todo add quiz custom
-            QuizType.Custom
+            return new JsonResult(await quizService.GetCustomQuiz(tags, questionCount, minutesCount));       
         }
 
         [HttpPost("/exam")]
-        public async Task<IActionResult> GetExamQuiz([FromBody] )
+        public async Task<IActionResult> GetExamQuiz()
         {
-            QuizType.Exam
+            return new JsonResult(await quizService.GetExamQuiz());
         }
         [HttpPost("/random")]
         public async Task<IActionResult> GetAllRandomQuiz()
         {
-            QuizType.AllRandom
+            return new JsonResult(await quizService.GetAllRandomQuiz());
         }
         
         [HttpPut("/answer")]
-        public async Task<IActionResult> GetUserAnswers([FromBody] IEnumerable<Answer> answers)
+        public async Task<IActionResult> GetUserAnswers([FromBody] IEnumerable<IEnumerable<Answer>> answers)
         {
-            
+            UserQuizAnswer userQuizAnswer = new UserQuizAnswer();
+            userQuizAnswer.UserAnswers = answers;
+            return new JsonResult(await quizService.MakeReport(userQuizAnswer));
         }
 
 
