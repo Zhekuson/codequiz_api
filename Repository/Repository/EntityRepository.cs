@@ -12,7 +12,6 @@ namespace Repository.Repository
         protected async Task<SqlConnection> GetConnection()
         {
             SqlConnection connection = new SqlConnection(DatabaseConfig.connectionString);
-            
             return connection;
         }
         protected SqlCommand CreateCommand(string command, SqlConnection connection)

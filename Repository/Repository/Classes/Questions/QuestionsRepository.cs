@@ -29,6 +29,7 @@ namespace Repository.Repository.Classes
 
         public async Task<Question> GetQuestionByID(int ID)
         {
+            await ExecuteQueryGetQuestionById(ID);
             throw new NotImplementedException();
         }
 
@@ -45,7 +46,7 @@ namespace Repository.Repository.Classes
 
 
         [QueryExecutor]
-        private async Task ExecuteQueryGetQuestionById(int id)
+        private async Task<Question> ExecuteQueryGetQuestionById(int id)
         { 
             using (SqlConnection connection = await GetConnection())
             {
@@ -64,6 +65,8 @@ namespace Repository.Repository.Classes
                 }
 
             }
+
+            throw new NotImplementedException();
          
         }
     }
