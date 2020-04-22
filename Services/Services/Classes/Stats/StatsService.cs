@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.Services.Classes.Stats
 {
-    class StatsService : IStatsService
+    public class StatsService : IStatsService
     {
         readonly IQuizAttemptRepository quizAttemptRepository;
         public StatsService(IQuizAttemptRepository quizAttemptRepository)

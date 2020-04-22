@@ -34,10 +34,12 @@ namespace CodequizApi.Features.Quiz
         }
 
         [HttpPost("/custom")]
-        public async Task<IActionResult> GetCustomQuiz([FromBody]IEnumerable<Tag> tags,
-            [FromBody] int minutesCount, [FromBody] int questionCount)
+        public async Task<IActionResult> GetCustomQuiz([FromBody]IEnumerable<Tag> tags)
+           // [FromBody] int minutesCount, [FromBody] int questionCount)
         {
-            return new JsonResult(await quizService.GetCustomQuiz(tags, questionCount, minutesCount));       
+            int questionsCount = 0;
+            int minutesCount = 0;
+            return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount, minutesCount));       
         }
 
         [HttpPost("/exam")]
@@ -53,9 +55,8 @@ namespace CodequizApi.Features.Quiz
         }
         
         [HttpPut("/answer")]
-        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt, [FromBody] string userEmail)
+        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt)
         {
-            quizAttempt.UserId = (await userService.GetUserByEmail(userEmail)).ID; 
             await statsService.InsertQuizAttempt(quizAttempt);
             return Ok();
         }

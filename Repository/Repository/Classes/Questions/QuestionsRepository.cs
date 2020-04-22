@@ -60,7 +60,6 @@ namespace Repository.Repository.Classes
                         question.ID = reader.GetInt32(reader.GetOrdinal("id"));
                         question.QuestionText = reader.GetString(reader.GetOrdinal("question_text"));
                         question.Type = (QuestionType)reader.GetInt32(reader.GetOrdinal("question_type_id"));
-                       // question.
                     }
                 }
 

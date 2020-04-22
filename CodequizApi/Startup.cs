@@ -25,6 +25,8 @@ using CodequizApi.Features.Auth;
 using Services.Services.Interfaces;
 using Repository.Repository.Interfaces.Quizes;
 using Repository.Repository.Classes.Quizes;
+using Services.Services.Interfaces.Stats;
+using Services.Services.Classes.Stats;
 
 namespace CodequizApi
 {
@@ -50,6 +52,8 @@ namespace CodequizApi
             services.AddSingleton<IMailService, MailService>();
             services.AddTransient<IQuizService, QuizService>();
             services.AddTransient<IQuizRepository, QuizRepository>();
+            services.AddTransient<IStatsService, StatsService>();
+           
             services.AddAuthentication(
                 JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
