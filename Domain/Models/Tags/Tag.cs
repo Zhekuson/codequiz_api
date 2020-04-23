@@ -6,8 +6,8 @@ namespace Domain.Models.Tags
 {
     public class Tag
     {
-        int ID { get; set; }
-        string Name { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
 
     }
 }

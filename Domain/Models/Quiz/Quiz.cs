@@ -6,9 +6,9 @@ namespace Domain.Models.Quiz
 {
     public class Quiz
     {
-        int ID { get; set; }
-        int UserId { get; set; }
-        QuizType QuizType { get; set; }
-        IEnumerable<Question> Questions { get; set; }
+        public int ID { get; set; }
+        public int UserId { get; set; }
+        public QuizType QuizType { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
     }
 }

@@ -6,10 +6,10 @@ using System.Text;
 namespace Domain.Models.Quiz
 {
     /// <summary>
-    /// Class with collection of collection of answers
+    /// Class with collection of answers
     /// </summary>
     public class UserQuizAnswer
     {
-        public IEnumerable<IEnumerable<Answer>> UserAnswers { get; set; }
+        public IEnumerable<Answer> UserAnswers { get; set; }
     }
 }

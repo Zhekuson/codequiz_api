@@ -6,8 +6,8 @@ namespace Domain.Models.Questions
 {
     public enum QuestionType
     {
-        OPEN,
-        SINGLE_CHOICE,
-        MULTIPLE_CHOICE
+        SINGLE_CHOICE = 1,
+        MULTIPLE_CHOICE = 2,
+        OPEN = 3
     }
 }

@@ -30,7 +30,7 @@ namespace CodequizApi.Features.Quiz
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuizById(int id)
         {
-            return new JsonResult(quizService.GetQuizById(id));
+            return new JsonResult(await quizService.GetQuizById(id));
         }
 
         [HttpPost("/custom")]

@@ -15,7 +15,7 @@ namespace Domain.Models.Questions
         public string QuestionText { get; set; }
         public QuestionType Type { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
-        public Answer RightAnswer { get; set; }
+        public IEnumerable<Answer> RightAnswer { get; set; }
         public IEnumerable<Answer> Answers { get; set; }
 
         public Question()

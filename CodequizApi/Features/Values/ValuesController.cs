@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Repository.Classes;
 
 namespace CodequizApi.Controllers
 {
@@ -13,8 +14,10 @@ namespace CodequizApi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> Get()
         {
+            QuestionsRepository questionsRepository = new QuestionsRepository();
+            await questionsRepository.GetAllQuestions();
             return new string[] { "value1", "value2" };
         }
 

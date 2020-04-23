@@ -8,8 +8,9 @@ namespace Domain.Models.Questions
     {
         public int Id { get; set; }
         public string AnswerText { get; set; }
-
-        Answer()
+        public bool IsRight { get; set; }
+        public int QuestionId { get; set; }
+        public Answer()
         {
 
         }
