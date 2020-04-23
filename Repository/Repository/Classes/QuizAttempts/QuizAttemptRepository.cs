@@ -16,7 +16,19 @@ namespace Repository.Repository.Classes.QuizAttempts
 
         public async Task InsertQuizAttempt(QuizAttempt quizAttempt)
         {
-            throw new NotImplementedException();
+            await ExecuteQueryInsertQuizAttempt(quizAttempt);
         }
+
+        [QueryExecutor]
+        private async Task ExecuteQueryInsertQuizAttempt(QuizAttempt quizAttempt)
+        {
+
+        }
+        [QueryExecutor]
+        private async Task<IEnumerable<QuizAttempt>> ExecuteQueryQuizAttemptsByEmail(string email)
+        {
+
+        }
+
     }
 }

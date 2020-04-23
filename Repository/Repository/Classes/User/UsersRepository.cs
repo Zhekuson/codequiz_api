@@ -16,17 +16,32 @@ namespace Repository.Repository.Classes
 
         public async Task AddUser(User user)
         {
-            throw new NotImplementedException();
+            await InsertUser(user);
         }
 
         public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            return await ExecuteQueryGetUserByEmail(email);
         }
 
         public async Task<User> GetUserByID(int id)
         {
-            throw new NotImplementedException();
+            return await ExecuteQueryGetUserByID(id);
+        }
+        [QueryExecutor]
+        private async Task<User> ExecuteQueryGetUserByEmail(string email)
+        {
+
+        }
+        [QueryExecutor]
+        private async Task<User> ExecuteQueryGetUserByID(int id)
+        {
+
+        }
+        [QueryExecutor]
+        private async Task InsertUser(User user)
+        {
+
         }
     }
 }

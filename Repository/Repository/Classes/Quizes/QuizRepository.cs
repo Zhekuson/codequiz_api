@@ -11,12 +11,23 @@ namespace Repository.Repository.Classes.Quizes
     {
         public async Task<Quiz> GetQuizById(int id)
         {
-            throw new NotImplementedException();
+            return await ExecuteQueryGetQuizById(id);
         }
 
         public async Task InsertQuiz(Quiz quiz)
         {
-            throw new NotImplementedException();
+            await ExecuteQueryInsertQuiz(quiz);
+        }
+
+        [QueryExecutor]
+        private async Task<Quiz> ExecuteQueryGetQuizById(int id)
+        {
+
+        }
+        [QueryExecutor]
+        private async Task ExecuteQueryInsertQuiz(Quiz quiz)
+        {
+
         }
     }
 }

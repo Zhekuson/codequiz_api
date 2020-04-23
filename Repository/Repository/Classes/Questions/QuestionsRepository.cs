@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository.Classes
 {
-    public class QuestionsRepository : EntityRepository,IQuestionsRepository
+    public class QuestionsRepository : EntityRepository, IQuestionsRepository
     {
         
         public QuestionsRepository()
@@ -33,19 +33,15 @@ namespace Repository.Repository.Classes
             return await ExecuteQueryGetQuestionById(ID);
         }
 
-        public async Task<IEnumerable<Question>> GetQuestionsByTag(string tag)
+
+        public async Task<IEnumerable<Question>> GetQuestionsByTag(Tag tag)
         {
-            throw new NotImplementedException();
+            return await ExecuteQueryGetQuestionsByTag(tag);
         }
 
-        public Task<IEnumerable<Question>> GetQuestionsByTag(Tag tag)
+        public async Task InsertQuestion(Question question)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task InsertQuestion(Question question)
-        {
-            throw new NotImplementedException();
+            await ExecuteQueryInsertQuestion(question);
         }
         
 
@@ -56,6 +52,7 @@ namespace Repository.Repository.Classes
             using (SqlConnection connection = await GetConnection())
             {
                 connection.Open();
+                
                 SqlCommand command = CreateCommand($"SELECT * FROM dbo.Question WHERE Question.id = {id} ", connection);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
@@ -73,5 +70,16 @@ namespace Repository.Repository.Classes
             throw new NotImplementedException();
          
         }
+        [QueryExecutor]
+        private async Task<IEnumerable<Question>> ExecuteQueryGetQuestionsByTag(Tag tag)
+        {
+
+        }
+        [QueryExecutor]
+        private async Task ExecuteQueryInsertQuestion(Question question)
+        {
+
+        }
+
     }
 }
