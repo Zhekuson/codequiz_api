@@ -14,7 +14,7 @@ DatabaseConfig.cs
 *.min.css
 *.min.js
 *.map
-
+Database/
 _build/
 _site/
 Properties/

@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Models.Questions;
+using Domain.Models.Tags;
 using Microsoft.SqlServer.Server;
 using Repository.Repository.DatabaseConnection;
 using Repository.Repository.Interfaces;
@@ -29,11 +30,15 @@ namespace Repository.Repository.Classes
 
         public async Task<Question> GetQuestionByID(int ID)
         {
-            await ExecuteQueryGetQuestionById(ID);
-            throw new NotImplementedException();
+            return await ExecuteQueryGetQuestionById(ID);
         }
 
         public async Task<IEnumerable<Question>> GetQuestionsByTag(string tag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Question>> GetQuestionsByTag(Tag tag)
         {
             throw new NotImplementedException();
         }
@@ -70,9 +75,3 @@ namespace Repository.Repository.Classes
         }
     }
 }
-    //IEnumerable<Question> questions = new List<Question>();
-    //        for (int i = 0; i< 10000; i++)
-    //        {
-    //            (questions as List<Question>).Add(new Question(i,$"text {i}"));
-    //        }
-    //        return questions;
