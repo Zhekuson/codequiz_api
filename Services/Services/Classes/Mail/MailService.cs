@@ -14,7 +14,7 @@ namespace Services.Services.Classes
         static Random random = new Random();
         public async Task<int> SendVerificationEmail(string email)
         {
-            int verificationCode = random.Next(1001, 9999);
+            int verificationCode = MailOptions.getCode();
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress(MailOptions.mailTitle, MailOptions.mailLogin));

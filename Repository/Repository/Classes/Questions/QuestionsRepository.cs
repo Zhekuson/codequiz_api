@@ -186,21 +186,31 @@ namespace Repository.Repository.Classes
                 using (connection.BeginTransaction())
                 {
                     SqlCommand command = CreateCommand("INSERT INTO [dbo].Question (question_text, question_type_id)" +
-                        $" VALUES ({question.QuestionText}, {(int)question.Type}) ", connection);
-                    command.ExecuteNonQuery();
+                        $" VALUES ({question.QuestionText}, {(int)question.Type}) SELECT @@IDENTITY AS ID", connection);
+                    using (SqlDataReader sqldatareader = command.ExecuteReader())
+                    {
+                        question.ID = (int)sqldatareader.GetDecimalByName("ID");
+                    }
 
-                    //TODO ID!!!!!!!!!! 
+
                     foreach (Answer answer in question.Answers)
                     {
                         command = CreateCommand("INSERT INTO [dbo].Answer (answer_text, is_right, question_id)" +
-                            $" VALUES({answer.AnswerText}, {answer.IsRight}, {answer.QuestionId})", connection);
+                            $" VALUES({answer.AnswerText}, {answer.IsRight}, {question.ID})", connection);
                     }
-                    //TODO INSERT TAG AND QUESTION TAG
-                    //foreach (Tag tag in question.Tags)
-                    //{
-                    //    command = CreateCommand("INSERT INTO [dbo].QuestionTag (question, is_right, question_id)" +
-                    //         $" VALUES({answer.AnswerText}, {answer.IsRight}, {answer.QuestionId})", connection);
-                    //}
+
+                    foreach (Tag tag in question.Tags)
+                    {
+                        command = CreateCommand($"SELECT * FROM Tag WHERE Tag.tag_name = {tag.Name}", connection);
+                        using (SqlDataReader sqlDataReader = command.ExecuteReader())
+                        {
+                            sqlDataReader.Read();
+                            tag.ID = sqlDataReader.GetInt32ByName("id");
+                        }
+
+                        command = CreateCommand("INSERT INTO [dbo].QuestionTag (question_id, tag_id)" +
+                             $" VALUES({question.ID}, {tag.ID})", connection);
+                    }
                 }
             }
         

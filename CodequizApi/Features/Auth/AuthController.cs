@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Services;
 using Services.Services.Interfaces;
+using Services.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,14 +26,28 @@ namespace CodequizApi.Features.Auth
             this.userService = userService;
             this.mailService = mailService;
         }
-        [HttpPost]
+        [HttpPost("verification")]
         public async Task<IActionResult> SendVerificationEmail([FromQuery]string email)
         {
             int code = await mailService.SendVerificationEmail(email);
-            return new JsonResult(code);
+            int sessionId = await userService.PutAuthorizationCode(code);
+            return new JsonResult(sessionId);
         }
-        [HttpPost("token")]
-        public async Task<IActionResult> Token(string email)
+        [HttpPost("verify")]
+        public async Task<IActionResult> VerifyEmail([FromQuery]int code,
+            [FromQuery] int sessionId,[FromQuery] string email)
+        {
+            if (await userService.CheckCode(code, sessionId))
+            {
+                User user = new User();
+                user.Email = email;
+                await userService.AddUser(user);
+                return await Token(email);
+            }
+            return StatusCode(401);
+        }
+
+        private async Task<IActionResult> Token(string email)
         {
             try
             {
@@ -53,9 +68,12 @@ namespace CodequizApi.Features.Auth
                 {
                     accessToken = encodedJwt
                 };
-
                 return Json(response);
-            }//TODO add catch exceptions
+            }
+            catch (UserUnauthorizedException)
+            {
+                return StatusCode(401);
+            }
             catch (Exception)
             {
                 return (StatusCode(500));
@@ -64,19 +82,16 @@ namespace CodequizApi.Features.Auth
         private async Task<ClaimsIdentity> GetIdentity(string email)
         {
             User person = await userService.GetUserByEmail(email);
-            if (person == null)
+            if (person != null)
             {
-                // если пользователя не найдено
-                person = new User();
-                person.Email = email;
-                await userService.AddUser(person);
+                var claims = new List<Claim>
+                {
+                       new Claim("email",email)
+                };
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
+                return claimsIdentity;
             }
-            var claims = new List<Claim>
-            {
-                    new Claim("email",email)
-            };
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
-            return claimsIdentity;
+            throw new UserUnauthorizedException();
         }
 
     }

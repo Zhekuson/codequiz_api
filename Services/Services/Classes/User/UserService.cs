@@ -20,9 +20,20 @@ namespace Services.Services.Classes
         {
             await usersRepository.AddUser(user);
         }
+
+        public async Task<bool> CheckCode(int code, int sessionId)
+        {
+            return await usersRepository.CheckCode(code, sessionId); 
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             return await usersRepository.GetUserByEmail(email);
+        }
+
+        public async Task<int> PutAuthorizationCode(int code)
+        {
+            return await usersRepository.PutAuthorizationCode(code);
         }
     }
 }

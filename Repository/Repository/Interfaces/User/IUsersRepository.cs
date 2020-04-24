@@ -12,5 +12,7 @@ namespace Repository.Repository.Interfaces
         Task<User> GetUserByEmail(string email);
         Task AddUser(User user);
         Task<User> GetUserByID(int id);
+        Task<bool> CheckCode(int code, int sessionId);
+        Task<int> PutAuthorizationCode(int code);
     }
 }

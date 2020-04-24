@@ -13,6 +13,7 @@ namespace Repository.Repository.Classes
 {
     public class UsersRepository: EntityRepository, IUsersRepository
     {
+        readonly static int maxAttempts = 3;
         public UsersRepository()
         {
         }
@@ -39,7 +40,7 @@ namespace Repository.Repository.Classes
             using (SqlConnection connection = GetConnection())
             {
                 connection.Open();
-                SqlCommand command = CreateCommand($"SELECT * FROM [dbo].[User] u WHERE u.email = {email}", connection);
+                SqlCommand command = CreateCommand($"SELECT * FROM [dbo].[User] u WHERE u.email = '{email}'", connection);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -111,10 +112,13 @@ namespace Repository.Repository.Classes
             {
                 connection.Open();
                 SqlCommand command = CreateCommand(
-                    $"INSERT INTO [dbo].[User](email) VALUES ({user.Email})", connection);
+                    $"INSERT INTO [dbo].[User](email) VALUES ('{user.Email}')", connection);
                 command.ExecuteNonQuery();
             }
-            await InsertGoogleUser(user.GoogleUser);
+            if (user.GoogleUser != null)
+            {
+                await InsertGoogleUser(user.GoogleUser);
+            }
         }
 
         private async Task InsertGoogleUser(GoogleUser googleUser)
@@ -129,6 +133,51 @@ namespace Repository.Repository.Classes
                 command.ExecuteNonQuery();
             }
             
+        }
+
+        public async Task<bool> CheckCode(int code, int sessionId)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                connection.Open();
+                SqlCommand command = CreateCommand(
+                    $"USE questionsbase SELECT * FROM SessionCode WHERE session_id = {sessionId}", connection);
+                using (SqlDataReader sqlDataReader = command.ExecuteReader())
+                {
+                    sqlDataReader.Read();
+                    if(sqlDataReader.GetInt32ByName("attempts_count") < maxAttempts)
+                    {
+                        bool success = sqlDataReader.GetInt32ByName("code") == code;
+                        //TODO MERGE
+                        SqlCommand command1 = CreateCommand($"USE questionsbase SELECT * FROM " +
+                          $"SessionCode WHERE session_id = {sessionId}", connection);
+                        command1.ExecuteNonQuery();
+                        
+                        return success;
+                    }
+                    else
+                    {
+                        throw new TooMuchAttemptsException();
+                    }
+                    
+                }
+            }
+        }
+        public async Task<int> PutAuthorizationCode(int code)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                connection.Open();
+                SqlCommand command = CreateCommand(
+                    $"INSERT INTO[dbo].[SessionCode](code, attempts_count)" +
+                    $" VALUES({code}, 1) SELECT @@IDENTITY AS ID", connection);
+                using (SqlDataReader sqlDataReader = command.ExecuteReader())
+                {
+                    sqlDataReader.Read();
+                    decimal f = sqlDataReader.GetDecimalByName("ID");
+                    return (int)sqlDataReader.GetDecimalByName("ID");
+                }
+            }
         }
     }
 }

@@ -11,5 +11,15 @@ namespace Services
     {
         Task<User> GetUserByEmail(string email);
         Task AddUser(User user);
+        /// <summary>
+        /// puts authorization 
+        /// </summary>
+        /// <returns>session id for client</returns>
+        Task<int> PutAuthorizationCode(int code);
+        /// <summary>
+        /// Checks code 
+        /// </summary>
+        /// <returns>true if code is valid</returns>
+        Task<bool> CheckCode(int code, int sessionId);
     }
 }

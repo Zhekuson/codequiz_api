@@ -43,5 +43,10 @@ namespace Repository.Repository
         {
             return sqlDataReader.GetByte(sqlDataReader.GetOrdinal(columnName));
         }
+
+        public static decimal GetDecimalByName(this SqlDataReader sqlDataReader, string columnName)
+        {
+            return sqlDataReader.GetDecimal(sqlDataReader.GetOrdinal(columnName));
+        }
     }
 }
