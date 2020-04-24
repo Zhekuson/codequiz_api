@@ -39,5 +39,9 @@ namespace Repository.Repository
         {
             return sqlDataReader.GetDateTime(sqlDataReader.GetOrdinal(columnName));
         }
+        public static byte GetByteByName(this SqlDataReader sqlDataReader, string columnName)
+        {
+            return sqlDataReader.GetByte(sqlDataReader.GetOrdinal(columnName));
+        }
     }
 }

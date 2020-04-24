@@ -126,6 +126,7 @@ namespace Repository.Repository.Classes
                 {
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         Question question = new Question();
                         question.ID = reader.GetInt32ByName("id");
                         question.QuestionText = reader.GetStringByName("question_text");

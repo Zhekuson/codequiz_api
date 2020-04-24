@@ -24,13 +24,12 @@ namespace Services.Services.Classes
             {
                 Text = $"Verification code = {verificationCode}"
             };
-
+           
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync(MailOptions.server, 25, false);
                 await client.AuthenticateAsync(MailOptions.mailLogin, MailOptions.password);
                 await client.SendAsync(emailMessage);
-
                 await client.DisconnectAsync(true);
             }
             return verificationCode;

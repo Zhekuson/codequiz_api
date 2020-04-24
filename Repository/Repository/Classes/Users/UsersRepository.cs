@@ -44,6 +44,7 @@ namespace Repository.Repository.Classes
                 {
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         user.Email = reader.GetString(reader.GetOrdinal("email"));
                         user.ID = reader.GetInt32(reader.GetOrdinal("id")); 
                         user.GoogleUser = new GoogleUser();
@@ -58,6 +59,7 @@ namespace Repository.Repository.Classes
                 {
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         user.GoogleUser.Email = reader.GetString(reader.GetOrdinal("email"));
                         user.GoogleUser.Name = reader.GetString(reader.GetOrdinal("name"));
                         user.GoogleUser.Surname = reader.GetString(reader.GetOrdinal("surname"));
@@ -78,6 +80,7 @@ namespace Repository.Repository.Classes
                 {
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         user.Email = reader.GetString(reader.GetOrdinal("email"));
                         user.ID = id;
                         user.GoogleUser = new GoogleUser();
@@ -92,6 +95,7 @@ namespace Repository.Repository.Classes
                 {
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         user.GoogleUser.Email = reader.GetString(reader.GetOrdinal("email"));
                         user.GoogleUser.Name = reader.GetString(reader.GetOrdinal("name"));
                         user.GoogleUser.Surname = reader.GetString(reader.GetOrdinal("surname"));

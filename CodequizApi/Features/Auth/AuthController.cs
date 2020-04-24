@@ -3,6 +3,7 @@ using Domain.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Services;
+using Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,15 +15,22 @@ namespace CodequizApi.Features.Auth
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController:Controller
+    public class AuthController : Controller
     {
 
         readonly IUserService userService;
-        public AuthController(IUserService userService)
+        readonly IMailService mailService;
+        public AuthController(IUserService userService, IMailService mailService)
         {
             this.userService = userService;
+            this.mailService = mailService;
         }
-
+        [HttpPost]
+        public async Task<IActionResult> SendVerificationEmail([FromQuery]string email)
+        {
+            int code = await mailService.SendVerificationEmail(email);
+            return new JsonResult(code);
+        }
         [HttpPost("token")]
         public async Task<IActionResult> Token(string email)
         {

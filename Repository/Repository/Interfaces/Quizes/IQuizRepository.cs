@@ -10,6 +10,6 @@ namespace Repository.Repository.Interfaces.Quizes
     {
         public Task<Quiz> GetQuizById(int id);
 
-        public Task InsertQuiz(Quiz quiz);
+        public Task<int> InsertQuiz(Quiz quiz);
     }
 }
