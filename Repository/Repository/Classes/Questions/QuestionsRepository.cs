@@ -3,6 +3,7 @@ using Domain.Models.Questions;
 using Domain.Models.Tags;
 using Microsoft.SqlServer.Server;
 using Repository.Repository.DatabaseConnection;
+using Repository.Repository.Exceptions;
 using Repository.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -63,11 +64,15 @@ namespace Repository.Repository.Classes
                         question.QuestionText = reader.GetString(reader.GetOrdinal("question_text"));
                         question.Type = (QuestionType)reader.GetInt32(reader.GetOrdinal("question_type_id"));
                     }
+                    else
+                    {
+                        throw new QuestionNotFoundException();
+                    }
                 }
 
             }
 
-            throw new NotImplementedException();
+            
          
         }
         [QueryExecutor]
@@ -126,10 +131,6 @@ namespace Repository.Repository.Classes
                                 answer.AnswerText = reader.GetStringByName("answer_text");
                                 answer.IsRight = reader.GetBoolByName("is_right");
                                 answer.QuestionId = question.ID;
-                                if (answer.IsRight)
-                                {
-                                    question.RightAnswer.Append(answer);
-                                }
                                 question.Answers.Append(answer);
                             }
                         }
@@ -145,11 +146,27 @@ namespace Repository.Repository.Classes
             using (SqlConnection connection =  GetConnection())
             {
                 connection.Open();
-                SqlCommand command = CreateCommand("INSERT INTO [dbo].Question (id, question_text, question_type_id)", connection);
+                using (connection.BeginTransaction())
+                {
+                    SqlCommand command = CreateCommand("INSERT INTO [dbo].Question (question_text, question_type_id)" +
+                        $" VALUES ({question.QuestionText}, {(int)question.Type}) ", connection);
+                    command.ExecuteNonQuery();
 
-                command.ExecuteNonQuery();
+                    //TODO ID!!!!!!!!!! 
+                    foreach (Answer answer in question.Answers)
+                    {
+                        command = CreateCommand("INSERT INTO [dbo].Answer (answer_text, is_right, question_id)" +
+                            $" VALUES({answer.AnswerText}, {answer.IsRight}, {answer.QuestionId})", connection);
+                    }
+                    //TODO INSERT TAG AND QUESTION TAG
+                    //foreach (Tag tag in question.Tags)
+                    //{
+                    //    command = CreateCommand("INSERT INTO [dbo].QuestionTag (question, is_right, question_id)" +
+                    //         $" VALUES({answer.AnswerText}, {answer.IsRight}, {answer.QuestionId})", connection);
+                    //}
+                }
             }
-            throw new NotImplementedException();
+        
         }
         [QueryExecutor]
         private async Task<IEnumerable<Question>> ExecuteQueryGetAllQuestions()
