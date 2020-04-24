@@ -7,6 +7,7 @@ using Repository.Repository.Exceptions;
 using Repository.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
@@ -50,7 +51,8 @@ namespace Repository.Repository.Classes
 
         [QueryExecutor]
         private async Task<Question> ExecuteQueryGetQuestionById(int id)
-        { 
+        {
+            Question question = new Question();
             using (SqlConnection connection = GetConnection())
             {
                 connection.Open();
@@ -59,21 +61,54 @@ namespace Repository.Repository.Classes
                 {
                     if (reader.HasRows)
                     {
-                        Question question = new Question();
-                        question.ID = reader.GetInt32(reader.GetOrdinal("id"));
-                        question.QuestionText = reader.GetString(reader.GetOrdinal("question_text"));
-                        question.Type = (QuestionType)reader.GetInt32(reader.GetOrdinal("question_type_id"));
+                        if (reader.Read())
+                        {
+                            question.ID = reader.GetInt32ByName("id");
+                            question.QuestionText = reader.GetStringByName("question_text");
+                            question.Type = (QuestionType)reader.GetByte(reader.GetOrdinal("question_type_id"));
+                        }
                     }
                     else
                     {
                         throw new QuestionNotFoundException();
                     }
                 }
-
+                command = CreateCommand($"SELECT tag_id, tag_name FROM Question " +
+                $" JOIN QuestionTag ON Question.id = QuestionTag.question_id " +
+                $" JOIN Tag ON Tag.id = QuestionTag.tag_id WHERE Question.id = {question.ID}",connection);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        question.Tags = new List<Tag>();
+                        while (reader.Read())
+                        {
+                            Tag tag = new Tag();
+                            tag.ID = reader.GetInt32ByName("tag_id");
+                            tag.Name = reader.GetStringByName("tag_name");
+                            question.Tags = question.Tags.Append(tag);
+                        }
+                    }
+                }
+                command = CreateCommand($"SELECT * FROM Answer WHERE Answer.question_id = {question.ID}", connection);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        question.Answers = new List<Answer>();
+                        while (reader.Read())
+                        {
+                            Answer answer = new Answer();
+                            answer.Id = reader.GetInt32ByName("id");
+                            answer.AnswerText = reader.GetStringByName("answer_text");
+                            answer.IsRight = reader.GetBoolByName("is_right");
+                            answer.QuestionId = question.ID;
+                            question.Answers = question.Answers.Append(answer);
+                        }
+                    }
+                }
             }
-
-            
-         
+            return question;
         }
         [QueryExecutor]
         private async Task<IEnumerable<Question>> ExecuteQueryGetQuestionsByTag(Tag tag)
@@ -95,6 +130,7 @@ namespace Repository.Repository.Classes
                         question.ID = reader.GetInt32ByName("id");
                         question.QuestionText = reader.GetStringByName("question_text");
                         question.Type = (QuestionType)reader.GetInt32ByName("question_type_id");
+                        questions = questions.Append(question);
                     }
                 }
                 foreach (var question in questions)
@@ -112,7 +148,7 @@ namespace Repository.Repository.Classes
                                 Tag tag1 = new Tag();
                                 tag1.ID = reader.GetInt32ByName("id");
                                 tag1.Name = reader.GetStringByName("tag_name");
-                                question.Tags.Append(tag1);
+                                question.Tags = question.Tags.Append(tag1);
                             }
                         }
                     }
@@ -131,7 +167,7 @@ namespace Repository.Repository.Classes
                                 answer.AnswerText = reader.GetStringByName("answer_text");
                                 answer.IsRight = reader.GetBoolByName("is_right");
                                 answer.QuestionId = question.ID;
-                                question.Answers.Append(answer);
+                                question.Answers = question.Answers.Append(answer);
                             }
                         }
                     }
@@ -172,7 +208,7 @@ namespace Repository.Repository.Classes
         private async Task<IEnumerable<Question>> ExecuteQueryGetAllQuestions()
         {
             IEnumerable<Question> questions = new List<Question>();
-            using (SqlConnection connection =  GetConnection())
+            using (SqlConnection connection = GetConnection())
             {
                 connection.Open();
                 SqlCommand command = CreateCommand("SELECT * FROM Question", connection);
@@ -185,7 +221,7 @@ namespace Repository.Repository.Classes
                             Question question = new Question();
                             question.ID = reader.GetInt32(reader.GetOrdinal("id"));
                             question = await ExecuteQueryGetQuestionById(question.ID);
-                            questions.Append(question);
+                            questions = questions.Append(question);
                         }
                     }
                 }

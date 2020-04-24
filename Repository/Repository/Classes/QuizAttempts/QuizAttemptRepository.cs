@@ -56,7 +56,7 @@ namespace Repository.Repository.Classes.QuizAttempts
                             answer.Id = reader.GetInt32ByName("answer_id");
                             answer.IsRight = reader.GetBoolByName("is_right");
                             answer.QuestionId = reader.GetInt32ByName("question_id");
-                            userQuizAnswer.UserAnswers.Append(answer);
+                            userQuizAnswer.UserAnswers = userQuizAnswer.UserAnswers.Append(answer);
                         }
                     }
                 }
@@ -112,7 +112,7 @@ namespace Repository.Repository.Classes.QuizAttempts
                             quizAttempt.EndDateTime = reader.GetDateTimeByName("end_time");
                             quizAttempt.Quiz = new Quiz();
                             quizAttempt.Quiz.ID = reader.GetInt32ByName("quiz_id");
-                            quizAttempts.Append(quizAttempt);
+                            quizAttempts = quizAttempts.Append(quizAttempt);
                         }
                     }
                     else

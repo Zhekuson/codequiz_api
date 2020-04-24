@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Models.Questions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Repository.Classes;
@@ -14,11 +15,11 @@ namespace CodequizApi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<string>>> Get()
+        public async Task<IActionResult> Get()
         {
             QuestionsRepository questionsRepository = new QuestionsRepository();
-            await questionsRepository.GetAllQuestions();
-            return new string[] { "value1", "value2" };
+            IEnumerable<Question> questions = await questionsRepository.GetAllQuestions();
+            return new JsonResult(questions);
         }
 
         // GET api/values/5
