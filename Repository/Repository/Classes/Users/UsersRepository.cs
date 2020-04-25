@@ -148,9 +148,8 @@ namespace Repository.Repository.Classes
                     if(sqlDataReader.GetInt32ByName("attempts_count") < maxAttempts)
                     {
                         bool success = sqlDataReader.GetInt32ByName("code") == code;
-                        //TODO MERGE
-                        SqlCommand command1 = CreateCommand($"USE questionsbase SELECT * FROM " +
-                          $"SessionCode WHERE session_id = {sessionId}", connection);
+                        SqlCommand command1 = CreateCommand($"UPDATE SessionCode SET attempts_count = " +
+                            $" attempts_count + 1 WHERE session_id = {sessionId}", connection);
                         command1.ExecuteNonQuery();
                         
                         return success;

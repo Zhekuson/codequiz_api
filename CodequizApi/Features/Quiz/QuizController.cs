@@ -33,28 +33,25 @@ namespace CodequizApi.Features.Quiz
             return new JsonResult(await quizService.GetQuizById(id));
         }
 
-        [HttpPost("/custom")]
-        public async Task<IActionResult> GetCustomQuiz([FromBody]IEnumerable<Tag> tags)
-           // [FromBody] int minutesCount, [FromBody] int questionCount)
+        [HttpPost("custom")]
+        public async Task<IActionResult> GetCustomQuiz([FromQuery] int questionsCount,[FromBody]IEnumerable<Tag> tags)
         {
-            int questionsCount = 0;
-            int minutesCount = 0;
-            return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount, minutesCount));       
+            return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount));       
         }
 
-        [HttpPost("/exam")]
+        [HttpPost("exam")]
         public async Task<IActionResult> GetExamQuiz()
         {
             return new JsonResult(await quizService.GetExamQuiz());
         }
 
-        [HttpPost("/random")]
+        [HttpPost("random")]
         public async Task<IActionResult> GetAllRandomQuiz()
         {
             return new JsonResult(await quizService.GetAllRandomQuiz());
         }
         
-        [HttpPut("/answer")]
+        [HttpPut("answer")]
         public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt)
         {
             await statsService.InsertQuizAttempt(quizAttempt);

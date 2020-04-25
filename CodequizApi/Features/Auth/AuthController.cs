@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Repository.Repository.Exceptions;
 
 namespace CodequizApi.Features.Auth
 {
@@ -37,12 +38,26 @@ namespace CodequizApi.Features.Auth
         public async Task<IActionResult> VerifyEmail([FromQuery]int code,
             [FromQuery] int sessionId,[FromQuery] string email)
         {
-            if (await userService.CheckCode(code, sessionId))
+            try
             {
-                User user = new User();
-                user.Email = email;
-                await userService.AddUser(user);
-                return await Token(email);
+                if (await userService.CheckCode(code, sessionId))
+                {
+                    User user = new User();
+                    user.Email = email;
+                    try
+                    {
+                        await userService.GetUserByEmail(email);
+                    }
+                    catch (UserNotFoundException)
+                    {
+                        await userService.AddUser(user);
+                    }
+                    return await Token(email);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
             }
             return StatusCode(401);
         }

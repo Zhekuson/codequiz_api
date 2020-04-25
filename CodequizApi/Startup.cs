@@ -27,6 +27,9 @@ using Repository.Repository.Interfaces.Quizes;
 using Repository.Repository.Classes.Quizes;
 using Services.Services.Interfaces.Stats;
 using Services.Services.Classes.Stats;
+using System.Text;
+using Repository.Repository.Interfaces.QuizAttempts;
+using Repository.Repository.Classes.QuizAttempts;
 
 namespace CodequizApi
 {
@@ -47,18 +50,20 @@ namespace CodequizApi
 
             services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IQuizService, QuizService>();
+            services.AddTransient<IStatsService, StatsService>();
+            services.AddSingleton<IQuizRepository, QuizRepository>();
             services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();
-            services.AddSingleton<IMailService, MailService>();
-            services.AddTransient<IQuizService, QuizService>();
-            services.AddTransient<IQuizRepository, QuizRepository>();
-            services.AddTransient<IStatsService, StatsService>();
+            services.AddSingleton<IQuizAttemptRepository, QuizAttemptRepository>();
            
             services.AddAuthentication(
                 JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
                         options.RequireHttpsMetadata = false;
+                        
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuer = true, //издатель

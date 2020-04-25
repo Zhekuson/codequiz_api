@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Repository.Repository.Exceptions
 {
-    class UserNotFoundException : Exception
+    public class UserNotFoundException : Exception
     {
         public UserNotFoundException()
         {

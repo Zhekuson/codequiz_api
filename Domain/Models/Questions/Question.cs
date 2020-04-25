@@ -26,5 +26,9 @@ namespace Domain.Models.Questions
             ID = id;
             QuestionText = text;
         }
+        public override int GetHashCode()
+        {
+            return ID;
+        }
     }
 }

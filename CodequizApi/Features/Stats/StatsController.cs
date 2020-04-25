@@ -19,8 +19,8 @@ namespace CodequizApi.Features.Stats
         {
             this.statsService = statsService;
         }
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetUserStats(string email)
+        [HttpGet]
+        public async Task<IActionResult> GetUserStats([FromQuery]string email)
         {   
             return new JsonResult(await statsService.GetQuizAttemptsByUserEmail(email));
         }

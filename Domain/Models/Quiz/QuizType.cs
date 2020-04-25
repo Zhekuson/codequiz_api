@@ -6,8 +6,8 @@ namespace Domain.Models.Quiz
 {
     public enum QuizType
     {
-        Custom,
-        Exam,
-        AllRandom
+        Custom = 3,
+        Exam = 2,
+        AllRandom = 1
     }
 }
