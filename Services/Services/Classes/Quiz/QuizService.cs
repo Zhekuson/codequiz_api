@@ -18,6 +18,8 @@ namespace Services.Services.Classes
     {
         const int examQuestionsCount = 40;
         const int allRandomQuestionsCount = 10;
+        const int examMinutesCount = 60;
+        const int allRandomMinutesCount = 10;
         readonly IQuestionsRepository questionsRepository;
         readonly IQuizRepository quizRepository;
 
@@ -33,6 +35,7 @@ namespace Services.Services.Classes
         {
             Quiz quiz = new Quiz();
             quiz.QuizType = QuizType.AllRandom;
+            quiz.Minutes = allRandomMinutesCount;
             List<Question> questions = await questionsRepository.GetAllQuestions() as List<Question>;
             Random random = new Random();
             quiz.Questions = new List<Question>();
@@ -46,7 +49,7 @@ namespace Services.Services.Classes
             return quiz;
         }
 
-        public async Task<Quiz> GetCustomQuiz(IEnumerable<Tag> tags, int questionsCount)
+        public async Task<Quiz> GetCustomQuiz(IEnumerable<Tag> tags, int questionsCount, int minutesCount)
         {
             HashSet<Question> allQuestions = new HashSet<Question>();
             foreach (Tag tag in tags)
@@ -64,6 +67,7 @@ namespace Services.Services.Classes
             Quiz quiz = new Quiz();
             quiz.QuizType = QuizType.Custom;
             quiz.Questions = new List<Question>();
+            quiz.Minutes = minutesCount; 
             Random random = new Random();
             for (int i = 0; i < Math.Min(questionsCount,allQuestions.Count()); i++)
             {
@@ -81,6 +85,7 @@ namespace Services.Services.Classes
             quiz.QuizType = QuizType.Exam;
             List<Question> questions = (await questionsRepository.GetAllQuestions())as List<Question>;
             quiz.Questions = new List<Question>();
+            quiz.Minutes = examMinutesCount;
             Random random = new Random();
             for (int i = 0; i < Math.Min(examQuestionsCount, questions.Count()); i++)
             {

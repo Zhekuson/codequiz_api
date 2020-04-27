@@ -141,7 +141,7 @@ namespace Repository.Repository.Classes
             {
                 connection.Open();
                 SqlCommand command = CreateCommand(
-                    $"USE questionsbase SELECT * FROM SessionCode WHERE session_id = {sessionId}", connection);
+                    $"SELECT * FROM SessionCode WHERE session_id = {sessionId}", connection);
                 using (SqlDataReader sqlDataReader = command.ExecuteReader())
                 {
                     sqlDataReader.Read();

@@ -34,9 +34,9 @@ namespace CodequizApi.Features.Quiz
         }
 
         [HttpPost("custom")]
-        public async Task<IActionResult> GetCustomQuiz([FromQuery] int questionsCount,[FromBody]IEnumerable<Tag> tags)
+        public async Task<IActionResult> GetCustomQuiz([FromQuery] int questionsCount, [FromQuery] int minutesCount,[FromBody]IEnumerable<Tag> tags)
         {
-            return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount));       
+            return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount, minutesCount));       
         }
 
         [HttpGet("exam")]

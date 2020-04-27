@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Repository.Repository.Exceptions
 {
-    class TooMuchAttemptsException : Exception
+    public class TooMuchAttemptsException : Exception
     {
         public TooMuchAttemptsException()
         {

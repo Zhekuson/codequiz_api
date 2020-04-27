@@ -12,7 +12,7 @@ namespace Services.Services.Interfaces
     {
         public Task<Quiz> GetAllRandomQuiz();
         public Task<Quiz> GetExamQuiz();
-        public Task<Quiz> GetCustomQuiz(IEnumerable<Tag> tags, int questionsCount);
+        public Task<Quiz> GetCustomQuiz(IEnumerable<Tag> tags, int questionsCount, int minutesCount);
         public Task<Quiz> GetQuizById(int id);
         public Task<int> InsertQuiz(Quiz quiz);
     }

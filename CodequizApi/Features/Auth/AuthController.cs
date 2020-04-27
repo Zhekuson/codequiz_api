@@ -62,9 +62,13 @@ namespace CodequizApi.Features.Auth
                     return await Token(email);
                 }
             }
-            catch (Exception)
+            catch (TooMuchAttemptsException)
             {
-                return StatusCode(500);
+                return StatusCode(403);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(e.Message);
             }
             return StatusCode(401);
         }

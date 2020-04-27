@@ -46,6 +46,7 @@ namespace Repository.Repository.Classes.Quizes
                         int qid = reader.GetInt32ByName("question_id");
                         quiz.QuizType = (QuizType)reader.GetByteByName("quiz_type_id");
                         quiz.ID = reader.GetInt32ByName("id");
+                        quiz.Minutes = reader.GetInt32ByName("minutes");
                         quiz.Questions = new List<Question>();
                         Question question = await questionsRepository.GetQuestionByID(qid);
                         quiz.Questions = quiz.Questions.Append(question);
@@ -71,8 +72,8 @@ namespace Repository.Repository.Classes.Quizes
             {
                 connection.Open();
                 SqlCommand command = CreateCommand($"INSERT INTO Quiz " +
-                    $" (quiz_type_id)" +
-                    $" VALUES ({(int)quiz.QuizType}) SELECT @@IDENTITY AS ID", connection);
+                    $" (quiz_type_id, minutes)" +
+                    $" VALUES ({(int)quiz.QuizType}, {quiz.Minutes}) SELECT @@IDENTITY AS ID", connection);
 
                 using (SqlDataReader sqlDataReader = command.ExecuteReader())
                 {
