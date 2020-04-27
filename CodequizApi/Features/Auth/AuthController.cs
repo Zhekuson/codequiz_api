@@ -27,14 +27,21 @@ namespace CodequizApi.Features.Auth
             this.userService = userService;
             this.mailService = mailService;
         }
-        [HttpPost("verification")]
+        [HttpGet("verification")]
         public async Task<IActionResult> SendVerificationEmail([FromQuery]string email)
         {
-            int code = await mailService.SendVerificationEmail(email);
-            int sessionId = await userService.PutAuthorizationCode(code);
-            return new JsonResult(sessionId);
+            try
+            {
+                int code = await mailService.SendVerificationEmail(email);
+                int sessionId = await userService.PutAuthorizationCode(code);
+                return new JsonResult(sessionId);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(e.Message);
+            }
         }
-        [HttpPost("verify")]
+        [HttpGet("verify")]
         public async Task<IActionResult> VerifyEmail([FromQuery]int code,
             [FromQuery] int sessionId,[FromQuery] string email)
         {

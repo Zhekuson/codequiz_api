@@ -24,10 +24,10 @@ namespace Services.Services.Classes
             {
                 Text = $"Verification code = {verificationCode}"
             };
-           
+
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(MailOptions.server, 25, false);
+                await client.ConnectAsync(MailOptions.server, 587, false);
                 await client.AuthenticateAsync(MailOptions.mailLogin, MailOptions.password);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);
@@ -49,7 +49,7 @@ namespace Services.Services.Classes
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(MailOptions.server, 25, false);
+                await client.ConnectAsync(MailOptions.server, 1433, false);//25
                 await client.AuthenticateAsync(MailOptions.mailLogin, MailOptions.password);
                 await client.SendAsync(emailMessage);
 

@@ -30,6 +30,7 @@ using Services.Services.Classes.Stats;
 using System.Text;
 using Repository.Repository.Interfaces.QuizAttempts;
 using Repository.Repository.Classes.QuizAttempts;
+using Repository.Repository.DatabaseConnection;
 
 namespace CodequizApi
 {
@@ -57,7 +58,7 @@ namespace CodequizApi
             services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IQuizAttemptRepository, QuizAttemptRepository>();
-           
+            DatabaseConfig.connectionString = DatabaseConfig.releaseConnectionString;
             services.AddAuthentication(
                 JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>

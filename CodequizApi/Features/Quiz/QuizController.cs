@@ -39,13 +39,13 @@ namespace CodequizApi.Features.Quiz
             return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount));       
         }
 
-        [HttpPost("exam")]
+        [HttpGet("exam")]
         public async Task<IActionResult> GetExamQuiz()
         {
             return new JsonResult(await quizService.GetExamQuiz());
         }
 
-        [HttpPost("random")]
+        [HttpGet("random")]
         public async Task<IActionResult> GetAllRandomQuiz()
         {
             return new JsonResult(await quizService.GetAllRandomQuiz());
