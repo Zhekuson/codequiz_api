@@ -29,9 +29,9 @@ namespace Repository.Repository.Classes.QuizAttempts
             return await ExecuteQueryQuizAttemptsByEmail(email);
         }
 
-        public async Task InsertQuizAttempt(QuizAttempt quizAttempt)
+        public async Task InsertQuizAttempt(QuizAttempt quizAttempt, string email)
         {
-            await ExecuteQueryInsertQuizAttemptAndUserAnswers(quizAttempt);
+            await ExecuteQueryInsertQuizAttemptAndUserAnswers(quizAttempt, email);
         }
 
         [QueryExecutor]
@@ -66,12 +66,13 @@ namespace Repository.Repository.Classes.QuizAttempts
         }
 
         [QueryExecutor]
-        private async Task ExecuteQueryInsertQuizAttemptAndUserAnswers(QuizAttempt quizAttempt)
+        private async Task ExecuteQueryInsertQuizAttemptAndUserAnswers(QuizAttempt quizAttempt, string email)
         {
             using (SqlConnection connection = GetConnection())
             {
                 connection.Open();
-        
+                User user = await usersRepository.GetUserByEmail(email);
+                quizAttempt.UserId = user.ID;
                     //insert quiz attempt
                     SqlCommand command = CreateCommand($"INSERT INTO [dbo].[QuizAttempt](" +
                         $"quiz_id, user_id, start_time, end_time" +

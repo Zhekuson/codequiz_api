@@ -10,6 +10,6 @@ namespace Repository.Repository.Interfaces.QuizAttempts
     {
         public Task<IEnumerable<QuizAttempt>> GetQuizAttemptsByEmail(string email);
 
-        public Task InsertQuizAttempt(QuizAttempt quizAttempt);
+        public Task InsertQuizAttempt(QuizAttempt quizAttempt, string email);
     }
 }

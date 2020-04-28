@@ -11,6 +11,6 @@ namespace Services.Services.Interfaces.Stats
     {
         public Task<IEnumerable<QuizAttempt>> GetQuizAttemptsByUserEmail(string email);
 
-        public Task InsertQuizAttempt(QuizAttempt quizAttempt);
+        public Task InsertQuizAttempt(QuizAttempt quizAttempt, string email);
     }
 }

@@ -19,9 +19,9 @@ namespace Services.Services.Classes.Stats
         {
             return quizAttemptRepository.GetQuizAttemptsByEmail(email);
         }
-        public async Task InsertQuizAttempt(QuizAttempt quizAttempt)
+        public async Task InsertQuizAttempt(QuizAttempt quizAttempt, string email)
         {
-            await quizAttemptRepository.InsertQuizAttempt(quizAttempt);
+            await quizAttemptRepository.InsertQuizAttempt(quizAttempt, email);
         }
     }
 }

@@ -52,9 +52,9 @@ namespace CodequizApi.Features.Quiz
         }
         
         [HttpPut("answer")]
-        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt)
+        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt, [FromQuery] string email)
         {
-            await statsService.InsertQuizAttempt(quizAttempt);
+            await statsService.InsertQuizAttempt(quizAttempt, email);
             return Ok();
         }
 
