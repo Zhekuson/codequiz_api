@@ -6,8 +6,8 @@ namespace Domain.Models.Tags
 {
     public class TagCountPair
     {
-        Tag Tag { get; set; }
+        public Tag Tag { get; set; }
 
-        int Count { get; set; }
+        public int Count { get; set; }
     }
 }
