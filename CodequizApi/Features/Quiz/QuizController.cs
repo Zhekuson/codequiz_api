@@ -3,7 +3,7 @@ using Domain.Models.Quiz;
 using Domain.Models.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Repository.Exceptions;
+using Repository.Repository.Exceptions
 using Services;
 using Services.Services.Interfaces;
 using Services.Services.Interfaces.Stats;
@@ -28,6 +28,13 @@ namespace CodequizApi.Features.Quiz
             this.statsService = statsService;
             this.userService = userService;
         }
+        [HttpPost("insert")]
+        public async Task<IActionResult> InsertQuiz([FromBody] Domain.Models.Quiz.Quiz quiz)
+        {
+            await quizService.InsertQuiz(quiz);
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuizById(int id)
         {
@@ -58,7 +65,7 @@ namespace CodequizApi.Features.Quiz
         {
             return new JsonResult(await quizService.GetAllRandomQuiz());
         }
-        
+
         [HttpPost("answer")]
         public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt, [FromQuery] string email)
         {
