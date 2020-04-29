@@ -187,12 +187,11 @@ namespace Repository.Repository.Classes
             using (SqlConnection connection =  GetConnection())
             {
                 connection.Open();
-                using (connection.BeginTransaction())
-                {
                     SqlCommand command = CreateCommand("INSERT INTO [dbo].Question (question_text, question_type_id)" +
-                        $" VALUES ({question.QuestionText}, {(int)question.Type}) SELECT @@IDENTITY AS ID", connection);
+                        $" VALUES ('{question.QuestionText}', {(int)question.Type}) SELECT @@IDENTITY AS ID", connection);
                     using (SqlDataReader sqldatareader = command.ExecuteReader())
                     {
+                        sqldatareader.Read();
                         question.ID = (int)sqldatareader.GetDecimalByName("ID");
                     }
 
@@ -200,7 +199,8 @@ namespace Repository.Repository.Classes
                     foreach (Answer answer in question.Answers)
                     {
                         command = CreateCommand("INSERT INTO [dbo].Answer (answer_text, is_right, question_id)" +
-                            $" VALUES('{answer.AnswerText}', {answer.IsRight}, {question.ID})", connection);
+                            $" VALUES('{answer.AnswerText}', {(answer.IsRight ? 1 : 0)}, {question.ID})", connection);
+                        command.ExecuteNonQuery();
                     }
 
                     foreach (Tag tag in question.Tags)
@@ -208,15 +208,26 @@ namespace Repository.Repository.Classes
                         command = CreateCommand($"SELECT * FROM Tag WHERE Tag.tag_name = '{tag.Name}'", connection);
                         using (SqlDataReader sqlDataReader = command.ExecuteReader())
                         {
-                            sqlDataReader.Read();
-                            tag.ID = sqlDataReader.GetInt32ByName("id");
+                            if (sqlDataReader.HasRows)
+                            {
+                                sqlDataReader.Read();
+                                tag.ID = sqlDataReader.GetInt32ByName("id");
+                            }
+                            else
+                            {
+                                command = CreateCommand($"INSERT INTO Tag(tag_name) VALUES " +
+                                    $"('{tag.Name}') SELECT @@IDENTITY AS ID",connection);
+                                using(SqlDataReader sqlDataReader1 = command.ExecuteReader()){
+                                    sqlDataReader1.Read();
+                                    tag.ID = (int)sqlDataReader1.GetDecimalByName("ID");
+                                }
+                            }
                         }
 
                         command = CreateCommand("INSERT INTO [dbo].QuestionTag (question_id, tag_id)" +
                              $" VALUES({question.ID}, {tag.ID})", connection);
                         command.ExecuteNonQuery();
-                    }
-                }
+                    }               
             }
         
         }

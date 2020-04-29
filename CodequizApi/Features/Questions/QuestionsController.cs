@@ -30,11 +30,17 @@ namespace CodequizApi.Controllers
             return new JsonResult(questions);
         }
 
-        [HttpPost("/insert")]
+        [HttpPost("insert")]
         public async Task<IActionResult> InsertQuestion([FromBody] Question question)
         {
-            await questionService.InsertQuestion(question);
-            return Ok();
+            try
+            {
+                await questionService.InsertQuestion(question);
+                return Ok();
+            }catch(Exception e)
+            {
+                return new JsonResult(e.Message);
+            }
         }
 
 

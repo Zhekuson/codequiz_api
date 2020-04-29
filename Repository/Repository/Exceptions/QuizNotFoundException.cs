@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Repository.Repository.Exceptions
 {
-    class QuizNotFoundException : Exception
+    public class QuizNotFoundException : Exception
     {
         public QuizNotFoundException()
         {

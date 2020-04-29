@@ -77,18 +77,22 @@ namespace Repository.Repository.Classes.QuizAttempts
                     SqlCommand command = CreateCommand($"INSERT INTO [dbo].[QuizAttempt](" +
                         $"quiz_id, user_id, start_time, end_time" +
                         $") VALUES ({quizAttempt.Quiz.ID}, {quizAttempt.UserId}," +
-                        $"'{quizAttempt.StartDateTime}', '{quizAttempt.EndDateTime}')", connection);
-                        command.ExecuteNonQuery();
-                //insert user answers
-                if (quizAttempt.UserQuizAnswer.UserAnswers != null)
+                        $"'{quizAttempt.StartDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}', '{quizAttempt.EndDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}') SELECT @@IDENTITY AS ID", connection);
+                using (SqlDataReader sqlDataReader = command.ExecuteReader())
                 {
-                    foreach (var answer in quizAttempt.UserQuizAnswer.UserAnswers)
-                    {
-                        command = CreateCommand($"INSERT INTO [dbo].[UserAnswer](quiz_attempt_id," +
-                         $"question_id, answer_id) VALUES ({quizAttempt.Id}, {answer.QuestionId}, {answer.Id})", connection);
-                        command.ExecuteNonQuery();
-                    }
+                    sqlDataReader.Read();
+                    quizAttempt.Id = (int)sqlDataReader.GetDecimalByName("ID");
                 }
+                    //insert user answers
+                    if (quizAttempt.UserQuizAnswer.UserAnswers != null)
+                    {
+                        foreach (var answer in quizAttempt.UserQuizAnswer.UserAnswers)
+                        {
+                            command = CreateCommand($"INSERT INTO [dbo].[UserAnswer](quiz_attempt_id," +
+                             $"question_id, answer_id) VALUES ({quizAttempt.Id}, {answer.QuestionId}, {answer.Id})", connection);
+                            command.ExecuteNonQuery();
+                        }
+                    }
 
 
             }
@@ -115,6 +119,7 @@ namespace Repository.Repository.Classes.QuizAttempts
                             quizAttempt.EndDateTime = reader.GetDateTimeByName("end_time");
                             quizAttempt.Quiz = new Quiz();
                             quizAttempt.Quiz.ID = reader.GetInt32ByName("quiz_id");
+                            quizAttempt.Quiz = await quizRepository.GetQuizById(quizAttempt.Quiz.ID);
                             quizAttempt.UserId = user.ID;
                             (quizAttempts as List<QuizAttempt>).Add(quizAttempt);
                         }
@@ -124,14 +129,22 @@ namespace Repository.Repository.Classes.QuizAttempts
                         throw new QuizAttemptsNotFound();
                     }
                 }
-                if(quizAttempts == null)
+                if (quizAttempts != null)
                 {
-                    throw new QuizAttemptsNotFound();
-                }
-                foreach(var quizAttempt in quizAttempts)
-                {
-                    quizAttempt.Quiz = await quizRepository.GetQuizById(quizAttempt.Quiz.ID);
-                    quizAttempt.UserQuizAnswer = await ExecuteQueryGetUserAnswerByAttempt(quizAttempt);
+                   // throw new QuizAttemptsNotFound();
+
+                    foreach (var quizAttempt in quizAttempts)
+                    {
+                        try
+                        {
+                           // quizAttempt.Quiz = await quizRepository.GetQuizById(quizAttempt.Quiz.ID);
+                        }
+                        catch (QuizNotFoundException)
+                        {
+                            throw new QuizAttemptsNotFound();
+                        }
+                        quizAttempt.UserQuizAnswer = await ExecuteQueryGetUserAnswerByAttempt(quizAttempt);
+                    }
                 }
             }
             return quizAttempts;

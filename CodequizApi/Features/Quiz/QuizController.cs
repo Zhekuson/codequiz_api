@@ -3,6 +3,7 @@ using Domain.Models.Quiz;
 using Domain.Models.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Repository.Exceptions;
 using Services;
 using Services.Services.Interfaces;
 using Services.Services.Interfaces.Stats;
@@ -30,7 +31,14 @@ namespace CodequizApi.Features.Quiz
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuizById(int id)
         {
-            return new JsonResult(await quizService.GetQuizById(id));
+            try
+            {
+                return new JsonResult(await quizService.GetQuizById(id));
+            }
+            catch (QuizNotFoundException)
+            {
+                return StatusCode(404);
+            }
         }
 
         [HttpPost("custom")]
@@ -51,11 +59,17 @@ namespace CodequizApi.Features.Quiz
             return new JsonResult(await quizService.GetAllRandomQuiz());
         }
         
-        [HttpPut("answer")]
+        [HttpPost("answer")]
         public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt, [FromQuery] string email)
         {
-            await statsService.InsertQuizAttempt(quizAttempt, email);
-            return Ok();
+            try { 
+                await statsService.InsertQuizAttempt(quizAttempt, email);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(e.Message);
+            }
         }
 
 

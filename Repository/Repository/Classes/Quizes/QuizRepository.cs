@@ -37,7 +37,7 @@ namespace Repository.Repository.Classes.Quizes
             {
                 connection.Open();
                 SqlCommand command = CreateCommand($"SELECT * FROM Quiz JOIN QuizQuestion ON  " +
-                    $"Quiz.id = QuizQuestion.quiz_id  WHERE Quiz.id ={id}", connection);
+                    $"Quiz.id = QuizQuestion.quiz_id  WHERE Quiz.id = {id}", connection);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -59,7 +59,7 @@ namespace Repository.Repository.Classes.Quizes
                     }
                     else
                     {
-                        throw new QuizNotFoundException();
+                        throw new QuizNotFoundException($"Quiz with id {id} not found");
                     }
                 }
             }
