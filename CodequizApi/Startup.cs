@@ -31,6 +31,10 @@ using System.Text;
 using Repository.Repository.Interfaces.QuizAttempts;
 using Repository.Repository.Classes.QuizAttempts;
 using Repository.Repository.DatabaseConnection;
+using Services.Services.Interfaces.Tags;
+using Services.Services.Classes.Tags;
+using Repository.Repository.Interfaces.Tags;
+using Repository.Repository.Classes.Tags;
 
 namespace CodequizApi
 {
@@ -54,6 +58,8 @@ namespace CodequizApi
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<IQuizService, QuizService>();
             services.AddTransient<IStatsService, StatsService>();
+            services.AddTransient<ITagsService, TagsService>();
+            services.AddSingleton<ITagsRepository, TagsRepository>();
             services.AddSingleton<IQuizRepository, QuizRepository>();
             services.AddSingleton<IQuestionsRepository, QuestionsRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();

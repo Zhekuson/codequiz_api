@@ -18,7 +18,7 @@ namespace Services.Services.Classes.Tags
         }
         public async Task<IEnumerable<TagCountPair>> GetTagsQuestionsCount()
         {
-           return await tagsRepository.            
+            return await tagsRepository.GetTagCountPairs();            
         }
     }
 }

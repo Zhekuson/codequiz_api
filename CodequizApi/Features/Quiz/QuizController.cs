@@ -3,7 +3,7 @@ using Domain.Models.Quiz;
 using Domain.Models.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Repository.Exceptions
+using Repository.Repository.Exceptions;
 using Services;
 using Services.Services.Interfaces;
 using Services.Services.Interfaces.Stats;

@@ -19,6 +19,7 @@ namespace CodequizApi.Features.Tags
         {
             this.tagsService = tagsService;
         }
+        [HttpGet]
         public async Task<IActionResult> GetTagsQuestionsCount()
         {
             return new JsonResult(await tagsService.GetTagsQuestionsCount());

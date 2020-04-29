@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository.Classes.Tags
 {
-    public class TagsRepository : EntityRepository, ITagsRepository 
+    public class TagsRepository : EntityRepository, ITagsRepository
     {
         public TagsRepository()
         {
@@ -33,17 +33,17 @@ namespace Repository.Repository.Classes.Tags
                     {
                         while (sqlDataReader.Read())
                         {
-                            Tag tag = new Tag(); 
+                            Tag tag = new Tag();
                             tag.ID = sqlDataReader.GetInt32ByName("id");
                             tag.Name = sqlDataReader.GetStringByName("tag_name");
                             tags.Add(tag);
                         }
                     }
                 }
-                foreach(Tag tag in tags)
+                foreach (Tag tag in tags)
                 {
-                    command = CreateCommand($"SELECT COUNT(*) AS CNT FROM Tag "+
-                    " JOIN QuestionTag ON QuestionTag.tag_id = Tag.id "+
+                    command = CreateCommand($"SELECT COUNT(*) AS CNT FROM Tag " +
+                    " JOIN QuestionTag ON QuestionTag.tag_id = Tag.id " +
                     $" JOIN Question ON Question.id = QuestionTag.question_id WHERE tag_name = '{tag.Name}'", connection);
                     using (SqlDataReader sqlDataReader = command.ExecuteReader())
                     {
@@ -53,11 +53,13 @@ namespace Repository.Repository.Classes.Tags
                             TagCountPair tagCountPair = new TagCountPair();
                             tagCountPair.Tag = tag;
                             tagCountPair.Count = sqlDataReader.GetInt32ByName("CNT");
+                            tagCountPairs.Add(tagCountPair);
                         }
                     }
                 }
-                
+
             }
             return tagCountPairs;
         }
+    }
 }
