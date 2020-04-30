@@ -9,5 +9,6 @@ namespace Services.Services.Interfaces.Tags
     public interface ITagsService
     {
         public Task<IEnumerable<TagCountPair>> GetTagsQuestionsCount();
+        public Task<int> GetMaxQuestionsCount(IEnumerable<Tag> tags);
     }
 }

@@ -16,6 +16,12 @@ namespace Services.Services.Classes.Tags
         {
             this.tagsRepository = tagsRepository;
         }
+
+        public async Task<int> GetMaxQuestionsCount(IEnumerable<Tag> tags)
+        {
+            return await tagsRepository.GetMaxQuestionsCount(tags);
+        }
+
         public async Task<IEnumerable<TagCountPair>> GetTagsQuestionsCount()
         {
             return await tagsRepository.GetTagCountPairs();            

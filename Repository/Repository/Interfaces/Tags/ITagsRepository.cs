@@ -9,5 +9,7 @@ namespace Repository.Repository.Interfaces.Tags
     public interface ITagsRepository
     {
         public Task<IEnumerable<TagCountPair>> GetTagCountPairs();
+
+        public Task<int> GetMaxQuestionsCount(IEnumerable<Tag> tags);
     }
 }
