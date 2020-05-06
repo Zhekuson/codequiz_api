@@ -39,7 +39,8 @@ namespace Services.Services.Classes
             List<Question> questions = await questionsRepository.GetAllQuestions() as List<Question>;
             Random random = new Random();
             quiz.Questions = new List<Question>();
-            for (int i = 0; i < Math.Min(allRandomQuestionsCount, questions.Count()); i++)
+            int min = Math.Min(allRandomQuestionsCount, questions.Count());
+            for (int i = 0; i < min; i++)
             {
                 int index = random.Next(0, questions.Count());
                 quiz.Questions = quiz.Questions.Append(questions[index]);
@@ -69,7 +70,8 @@ namespace Services.Services.Classes
             quiz.Questions = new List<Question>();
             quiz.Minutes = minutesCount; 
             Random random = new Random();
-            for (int i = 0; i < Math.Min(questionsCount,allQuestions.Count()); i++)
+            int min = Math.Min(questionsCount, allQuestions.Count());
+            for (int i = 0; i < min; i++)
             {
                 Question question = allQuestions.ElementAt(random.Next(0, allQuestions.Count()));
                 allQuestions.Remove(question);
@@ -87,7 +89,8 @@ namespace Services.Services.Classes
             quiz.Questions = new List<Question>();
             quiz.Minutes = examMinutesCount;
             Random random = new Random();
-            for (int i = 0; i < Math.Min(examQuestionsCount, questions.Count()); i++)
+            int min = Math.Min(examQuestionsCount, questions.Count());
+            for (int i = 0; i < min; i++)
             {
                 int index = random.Next(0, questions.Count());
                 quiz.Questions = quiz.Questions.Append(questions.ElementAt(index));
