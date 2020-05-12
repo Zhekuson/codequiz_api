@@ -38,7 +38,7 @@ namespace CodequizApi.Features.Auth
             }
             catch (Exception e)
             {
-                return new JsonResult(e.Message);
+                return StatusCode(500);
             }
         }
         [HttpGet("verify")]

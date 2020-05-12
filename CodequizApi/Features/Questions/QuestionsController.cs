@@ -9,7 +9,6 @@ using Services.Services.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Domain.Models.Questions;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CodequizApi.Controllers
 {
@@ -26,8 +25,15 @@ namespace CodequizApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            List<Question> questions = await questionService.GetAllQuestions() as List<Question>;
-            return new JsonResult(questions);
+            try
+            {
+                List<Question> questions = await questionService.GetAllQuestions() as List<Question>;
+                return new JsonResult(questions);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost("insert")]
@@ -37,9 +43,10 @@ namespace CodequizApi.Controllers
             {
                 await questionService.InsertQuestion(question);
                 return Ok();
-            }catch(Exception e)
+            }
+            catch(Exception e)
             {
-                return new JsonResult(e.Message);
+                return new JsonResult(StatusCode(500));
             }
         }
 

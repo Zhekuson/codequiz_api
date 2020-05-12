@@ -17,7 +17,7 @@ namespace CodequizApi.Features.Quiz
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class QuizController:Controller
+    public class QuizController : Controller
     {
         readonly IQuizService quizService;
         readonly IStatsService statsService;
@@ -31,8 +31,15 @@ namespace CodequizApi.Features.Quiz
         [HttpPost("insert")]
         public async Task<IActionResult> InsertQuiz([FromBody] Domain.Models.Quiz.Quiz quiz)
         {
-            await quizService.InsertQuiz(quiz);
-            return Ok();
+            try
+            {
+                await quizService.InsertQuiz(quiz);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{id}")]
@@ -46,36 +53,62 @@ namespace CodequizApi.Features.Quiz
             {
                 return StatusCode(404);
             }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost("custom")]
-        public async Task<IActionResult> GetCustomQuiz([FromQuery] int questionsCount, [FromQuery] int minutesCount,[FromBody]IEnumerable<Tag> tags)
+        public async Task<IActionResult> GetCustomQuiz([FromQuery] int questionsCount, [FromQuery] int minutesCount, [FromBody] IEnumerable<Tag> tags)
         {
-            return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount, minutesCount));       
+            try
+            {
+                return new JsonResult(await quizService.GetCustomQuiz(tags, questionsCount, minutesCount));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("exam")]
         public async Task<IActionResult> GetExamQuiz()
         {
-            return new JsonResult(await quizService.GetExamQuiz());
+            try
+            {
+                return new JsonResult(await quizService.GetExamQuiz());
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("random")]
         public async Task<IActionResult> GetAllRandomQuiz()
         {
-            return new JsonResult(await quizService.GetAllRandomQuiz());
+            try
+            {
+                return new JsonResult(await quizService.GetAllRandomQuiz());
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost("answer")]
-        public async Task<IActionResult> WriteResult ([FromBody] QuizAttempt quizAttempt, [FromQuery] string email)
+        public async Task<IActionResult> WriteResult([FromBody] QuizAttempt quizAttempt, [FromQuery] string email)
         {
-            try { 
+            try
+            {
                 await statsService.InsertQuizAttempt(quizAttempt, email);
                 return Ok();
             }
             catch (Exception e)
             {
-                return new JsonResult(e.Message);
+                return StatusCode(500);
             }
         }
 

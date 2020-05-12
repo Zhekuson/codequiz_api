@@ -35,7 +35,6 @@ namespace CodequizApi.Features.Users
             }
             catch (Exception e)
             {
-                //if error happened
                 return StatusCode(500);
             }
             

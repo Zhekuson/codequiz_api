@@ -22,17 +22,26 @@ namespace CodequizApi.Features.Tags
         [HttpGet]
         public async Task<IActionResult> GetTagsQuestionsCount()
         {
-            return new JsonResult(await tagsService.GetTagsQuestionsCount());
+            try
+            {
+                return new JsonResult(await tagsService.GetTagsQuestionsCount());
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
         [HttpPost("count")]
         public async Task<IActionResult> GetMaxQuestionsCount([FromBody] IEnumerable<Tag> tags)
         {
             try
             {
+                if (tags.Count() == 0) return new JsonResult(0);
                 return new JsonResult(await tagsService.GetMaxQuestionsCount(tags));
-            }catch(Exception e)
+            }
+            catch(Exception e)
             {
-                return new JsonResult(e.Message);
+                return StatusCode(500);
             }
         }
 

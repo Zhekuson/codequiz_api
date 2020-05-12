@@ -9,7 +9,6 @@ namespace Domain.Models.Users
     {
         public int ID { get; set; }
         public string Email { get; set; }
-        //public bool isConnectedToGoogle { get; set; }
         public GoogleUser GoogleUser { get; set; }
         public User() {}
     
